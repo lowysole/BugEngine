@@ -3,5 +3,16 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    String n = String();
+
+    String a("hello");
+    String b(a);
+    
+    String c = a + b;
+    
+    bool equal = a == b;
+    
+    size_t  len = c.GetLength();
+
+    c.Clear();
 }
