@@ -29,7 +29,14 @@ ModulePlayer::ModulePlayer(bool start_enabled) : Module(start_enabled)
 	backward.frames.push_back({974, 129, 57, 89});
 	backward.speed = 0.1f;
 
-	// TODO 8: setup the walk forward animation from ryu4.png
+	// DONE -- TODO 8: setup the walk forward animation from ryu4.png
+	forward.frames.push_back({ 10, 128, 70, 90 });
+	forward.frames.push_back({ 80, 128, 70, 90 });
+	forward.frames.push_back({ 161, 128, 70, 90 });
+	forward.frames.push_back({ 254, 128, 70, 90 });
+	forward.frames.push_back({ 344, 128, 70, 90 });
+	forward.frames.push_back({ 424, 128, 70, 90 });
+	forward.speed = 0.01f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -63,6 +70,7 @@ update_status ModulePlayer::Update()
 	// TODO 9: Draw the player with its animation
 	// make sure to detect player movement and change its
 	// position while cycling the animation(check Animation.h)
+	App->renderer->Blit(graphics, 0, 0, &forward.GetCurrentFrame(), 1.1f);
 
 	return UPDATE_CONTINUE;
 }

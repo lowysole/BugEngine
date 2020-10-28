@@ -5,6 +5,8 @@
 #include "Animation.h"
 #include "Globals.h"
 
+#define MOVE_STEPS 4
+
 struct SDL_Texture;
 
 class ModuleSceneKen : public Module
@@ -19,10 +21,14 @@ public:
 
 public:
 	
+
 	SDL_Texture* graphics = nullptr;
 	SDL_Rect ground;
 	SDL_Rect background;
+	SDL_Rect ship;
+	Animation move_coordinates;
 	Animation flag;
+	Animation  girl;
 };
 
 #endif // __MODULESCENEKEN_H__

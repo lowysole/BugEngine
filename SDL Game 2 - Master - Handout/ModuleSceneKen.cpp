@@ -11,16 +11,29 @@
 
 // Reference at https://youtu.be/OEhmUuehGOA?t=72
 
+
+
 ModuleSceneKen::ModuleSceneKen(bool start_enabled) : Module(start_enabled)
 {
+	// move_coordinates
+	for(int i = 0; i < MOVE_STEPS; i++)
+		move_coordinates.frames.push_back({ 0, -i, 0, 0 });
+	for (int i = MOVE_STEPS; i > 0 ; i--)
+		move_coordinates.frames.push_back({ 0, -i, 0, 0 });
+	move_coordinates.speed = 0.01f;
+
 	// ground
 	ground.x = 8;
 	ground.y = 391;
 	ground.w = 896;
 	ground.h = 72;
 
-	// TODO 2 : setup the foreground (red ship) with
+	// DONE -- TODO 2 : setup the foreground (red ship) with
 	// coordinates x,y,w,h from ken_stage.png
+	ship.x = 8;
+	ship.y = 25;
+	ship.w = 522;
+	ship.h = 181;
 
 	// Background / sky
 	background.x = 72;
@@ -34,8 +47,11 @@ ModuleSceneKen::ModuleSceneKen(bool start_enabled) : Module(start_enabled)
 	flag.frames.push_back({848, 304, 40, 40});
 	flag.speed = 0.08f;
 
-	// TODO 4: Setup Girl Animation from coordinates from ken_stage.png
-
+	// DONE -- TODO 4: Setup Girl Animation from coordinates from ken_stage.png
+	girl.frames.push_back({ 623, 16, 35, 55 });
+	girl.frames.push_back({ 623, 80, 35, 55 });
+	girl.frames.push_back({ 623, 144, 35, 55 });
+	girl.speed = 0.01f;
 }
 
 ModuleSceneKen::~ModuleSceneKen()
@@ -48,8 +64,11 @@ bool ModuleSceneKen::Start()
 	
 	graphics = App->textures->Load("ken_stage.png");
 
-	// TODO 7: Enable the player module
-	// TODO 0: trigger background music
+	// DONE -- TODO 7: Enable the player module
+	App->player->Enable();
+
+	// DONE -- TODO 0: trigger background music
+	//App->audio->PlayMusic("ken.ogg");
 	
 	return true;
 }
@@ -65,20 +84,23 @@ bool ModuleSceneKen::CleanUp()
 	return true;
 }
 
+
 // Update: draw background
 update_status ModuleSceneKen::Update()
 {
-	// TODO 5: make sure the ship goes up and down
-
+	// DONE -- TODO 5: make sure the ship goes up and down
+	SDL_Rect current_move_coordinates = move_coordinates.GetCurrentFrame();
 	// Draw everything --------------------------------------
-	// TODO 1: Tweak the parallax movement speed of the sea&sky + flag to your taste
-	App->renderer->Blit(graphics, 0, 0, &background, 1.0f); // sea and sky
-	App->renderer->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 1.0f); // flag animation
+	// DONE -- TODO 1: Tweak the parallax movement speed of the sea&sky + flag to your taste
+	App->renderer->Blit(graphics, 0, 0, &background, 1.1f); // sea and sky
+	App->renderer->Blit(graphics, 560, 8, &(flag.GetCurrentFrame()), 1.1f); // flag animation
 
-	// TODO 3: Draw the ship. Be sure to tweak the speed.
+	// DONE -- TODO 3: Draw the ship. Be sure to tweak the speed.
+	App->renderer->Blit(graphics, 0, current_move_coordinates.y, &ship, 1.1f); // ship
 
-	// TODO 6: Draw the girl. Make sure it follows the ship movement!
-	
+	// DONE -- TODO 6: Draw the girl. Make sure it follows the ship movement!
+	App->renderer->Blit(graphics, 192, current_move_coordinates.y + 103, &(girl.GetCurrentFrame()), 1.1f); // girl animation
+
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
 	// TODO 10: Build an entire new scene "honda", you can find its
