@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleSceneKen.h"
+#include "ModuleSceneHonda.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModulePlayer.h"
@@ -103,11 +104,15 @@ update_status ModuleSceneKen::Update()
 
 	App->renderer->Blit(graphics, 0, 170, &ground);
 
-	// TODO 10: Build an entire new scene "honda", you can find its
+	// WIP --TODO 10: Build an entire new scene "honda", you can find its
 	// and music in the Game/ folder
 
-	// TODO 11: Make that pressing space triggers a switch to honda logic module
+	// WIP -- TODO 11: Make that pressing space triggers a switch to honda logic module
 	// using FadeToBlack module
+
+	if (true /*Space button*/) {
+		App->fade->FadeToBlack(App->scene_honda, App->scene_ken, 10.0f);
+	}
 
 	return UPDATE_CONTINUE;
 }
