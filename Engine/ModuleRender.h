@@ -6,6 +6,8 @@ struct SDL_Texture;
 struct SDL_Renderer;
 struct SDL_Rect;
 
+#define DEGTORAD 0.01745329252f 
+
 class ModuleRender : public Module
 {
 public:
