@@ -23,8 +23,8 @@ public:
 	bool CleanUp();
 	SDL_Window* GetWindow() const { return window; };
 
-	std::vector<int*> GetWindowsSize() const { return std::vector<int*>(&w, &h); };
-	void SetWindowsSize(int* w1, int* h1) { *w= *w1 , *h = *h1; };
+	//std::vector<int*> GetWindowsSize() const { return std::vector<int*>(&w, &h); };
+	//void SetWindowsSize(int* w1, int* h1) { *w= *w1 , *h = *h1; };
 
 public:
 	//The window we'll be rendering to
@@ -32,9 +32,6 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
-
-	int* w = new int;
-	int* h = new int;
 };
 
 #endif // __ModuleWindow_H__

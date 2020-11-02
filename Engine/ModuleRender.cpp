@@ -51,9 +51,7 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {
-	std::vector<int*> windowSize = App->window->GetWindowsSize();
-	SDL_GetWindowSize(App->window->window, windowSize[0], windowSize[1]);
-	App->window->SetWindowsSize(windowSize[0], windowSize[1]);
+	SDL_GetWindowSize(App->window->window, 0, 0);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
