@@ -133,6 +133,7 @@
     <ClCompile Include="Time\Clock.cpp">
       <Filter>Time</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -363,6 +364,8 @@
     <ClInclude Include="Time\Clock.h">
       <Filter>Time</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCamera.h" />
+    <ClInclude Include="Point.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Algorithm">

@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "GL/glew.h"
 #include "Geometry/Frustum.h"
@@ -50,7 +51,9 @@ bool ModuleRender::Init()
 
 update_status ModuleRender::PreUpdate()
 {
-	SDL_GetWindowSize(App->window->window, 0, 0);
+	std::vector<int*> windowSize = App->window->GetWindowsSize();
+	SDL_GetWindowSize(App->window->window, windowSize[0], windowSize[1]);
+	App->window->SetWindowsSize(windowSize[0], windowSize[1]);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
@@ -94,21 +97,10 @@ update_status ModuleRender::Update()
 	glEnd();
 	glLineWidth(1.0f);
 
-	// TODO : Move to ModuleCamera
-	Frustum frustum;
-	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 200.0f);
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
-	frustum.SetPos(float3(0, 1, -2));
-	frustum.SetFront(float3::unitZ);
-	frustum.SetUp(float3::unitY);
-	float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
-	float4x4 viewMatrix = frustum.ViewMatrix();
-
 	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(*projectionGL.v);
+	glLoadMatrixf(*(App->camera->GetProjectionMatrix()).v);
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(*viewMatrix.Transposed().v);
+	glLoadMatrixf(*(App->camera->GetViewMatrix()).v);
 
 	return UPDATE_CONTINUE;
 }

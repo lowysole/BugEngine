@@ -216,9 +216,11 @@
     <ClInclude Include="Math\TransformOps.h" />
     <ClInclude Include="Math\vec2d.h" />
     <ClInclude Include="Module.h" />
+    <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Time\Clock.h" />
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +268,7 @@
     <ClCompile Include="Math\Quat.cpp" />
     <ClCompile Include="Math\SSEMath.cpp" />
     <ClCompile Include="Math\TransformOps.cpp" />
+    <ClCompile Include="ModuleCamera.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
