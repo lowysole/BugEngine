@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "ModuleWindow.h"
 #include "SDL/include/SDL.h"
 
 #define MAX_KEYS 300
@@ -35,7 +36,7 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::PreUpdate() {
 	static SDL_Event event;
-
+	Uint32 windowID = SDL_GetWindowID(App->window->window);
 	mouse_motion = { 0, 0 };
 	memset(windowEvents, false, WE_COUNT * sizeof(bool));
 
@@ -77,25 +78,29 @@ update_status ModuleInput::PreUpdate() {
 			break;
 
 		case SDL_WINDOWEVENT:
-			switch (event.window.event)
-			{
-				//case SDL_WINDOWEVENT_LEAVE:
-			case SDL_WINDOWEVENT_HIDDEN:
-			case SDL_WINDOWEVENT_MINIMIZED:
-			case SDL_WINDOWEVENT_FOCUS_LOST:
-				windowEvents[WE_HIDE] = true;
-				break;
+			if (event.window.windowID == windowID) {
+				switch (event.window.event)
+				{
+					//case SDL_WINDOWEVENT_LEAVE:
+				case SDL_WINDOWEVENT_HIDDEN:
+				case SDL_WINDOWEVENT_MINIMIZED:
+				case SDL_WINDOWEVENT_FOCUS_LOST:
+					windowEvents[WE_HIDE] = true;
+					break;
 
-				//case SDL_WINDOWEVENT_ENTER:
-			case SDL_WINDOWEVENT_SHOWN:
-			case SDL_WINDOWEVENT_FOCUS_GAINED:
-			case SDL_WINDOWEVENT_MAXIMIZED:
-			case SDL_WINDOWEVENT_RESTORED:
-				windowEvents[WE_SHOW] = true;
+					//case SDL_WINDOWEVENT_ENTER:
+				case SDL_WINDOWEVENT_SHOWN:
+				case SDL_WINDOWEVENT_FOCUS_GAINED:
+				case SDL_WINDOWEVENT_MAXIMIZED:
+				case SDL_WINDOWEVENT_RESTORED:
+					windowEvents[WE_SHOW] = true;
+					break;
+				case SDL_WINDOWEVENT_SIZE_CHANGED:
+					windowW = event.window.data1;
+					windowH = event.window.data2;
+				}
 				break;
 			}
-			break;
-
 		case SDL_MOUSEBUTTONDOWN:
 			mouse_buttons[event.button.button - 1] = KEY_DOWN;
 			break;

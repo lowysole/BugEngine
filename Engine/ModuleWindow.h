@@ -21,7 +21,6 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
-	SDL_Window* GetWindow() const { return window; };
 
 	//std::vector<int*> GetWindowsSize() const { return std::vector<int*>(&w, &h); };
 	//void SetWindowsSize(int* w1, int* h1) { *w= *w1 , *h = *h1; };
