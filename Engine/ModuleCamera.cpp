@@ -123,8 +123,10 @@ void ModuleCamera::RotateCamera() {
 	frustum.SetUp(rotationXmatrix.RotateX(aX) * oldUp);
 	frustum.SetFront(rotationXmatrix.RotateX(aX) * oldFront);
 
-	//frustum.SetFront(rotationYmatrix.RotateY(aY) * oldFront);
-	//frustum.SetUp(rotationYmatrix.RotateY(aY) * oldUp);
+	oldUp = frustum.Up().Normalized();
+	oldFront = frustum.Front().Normalized();
+	frustum.SetFront(rotationYmatrix.RotateY(aY) * oldFront);
+	frustum.SetUp(rotationYmatrix.RotateY(aY) * oldUp);
 
 
 }

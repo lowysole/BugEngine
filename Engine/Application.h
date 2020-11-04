@@ -10,6 +10,8 @@ class ModuleTextures;
 class ModuleInput;
 class ModuleCamera;
 class ModuleRenderExercise;
+class ModuleProgram;
+class ModuleRenderExercise;
 
 class Application
 {
@@ -23,10 +25,13 @@ public:
 	bool CleanUp();
 
 public:
+	//Moved to RenderExercise
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleCamera* camera = nullptr;
+	ModuleProgram* program = nullptr;
+
 
 private:
 
