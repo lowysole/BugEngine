@@ -30,11 +30,11 @@ update_status ModuleCamera::PreUpdate() {
 
 update_status ModuleCamera::Update() 
 {
-	unsigned currentTime = clock.Time();
-	deltaTime = currentTime - previousTime;
+	float currentTime = clock.Time();
+	deltaTime = (currentTime - previousTime) / 1000.0;
 	previousTime = currentTime;
-	moveSpeed = 0.004f;
-	angleSpeed = 0.001f;
+	moveSpeed = 3.0f;
+	angleSpeed = 2.0f;
 
 	SetAspectRatio();
 	SetFOV();
@@ -58,14 +58,11 @@ update_status ModuleCamera::PostUpdate()
 
 void ModuleCamera::SetFOV() {
 
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
+	frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
 }
 
 void ModuleCamera::SetAspectRatio() {
-	std::vector<int> windowSize = App->input->GetWindowsSize();
-
-	aspectRatio = (float)windowSize[1] / (float)windowSize[2];
-
+	aspectRatio = (float)*App->window->currentWidth / (float)*App->window->currentHeight;
 }
 
 void ModuleCamera::MoveHoritzontalPlane() {

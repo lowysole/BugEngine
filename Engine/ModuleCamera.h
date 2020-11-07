@@ -36,8 +36,8 @@ public:
 private:
 
 	Clock clock;
-	unsigned deltaTime;
-	unsigned previousTime;
+	float deltaTime;
+	float previousTime = 0.0f;
 	Frustum frustum;
 	float4x4 projectionGL;
 	float4x4 viewMatrix;

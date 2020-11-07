@@ -56,6 +56,15 @@ bool ModuleWindow::Init()
 	return ret;
 }
 
+update_status ModuleWindow::PreUpdate() {
+
+	//screen_surface->w = *currentWidth;
+	//screen_surface->h = *currentHeight;
+	//screen_surface->clip_rect.w = *currentWidth;
+	//screen_surface->clip_rect.h = *currentHeight;
+	return UPDATE_CONTINUE;
+}
+
 // Called before quitting
 bool ModuleWindow::CleanUp()
 {

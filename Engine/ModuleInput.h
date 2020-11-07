@@ -56,7 +56,6 @@ public:
 	const iPoint& GetMouseMotion() const;
 	const iPoint& GetMousePosition() const;
 
-	std::vector<int> GetWindowsSize() const { return std::vector<int> (windowW, windowH); };
 
 private:
 	bool windowEvents[WE_COUNT];
@@ -64,5 +63,4 @@ private:
 	KeyState mouse_buttons[NUM_MOUSE_BUTTONS];
 	iPoint mouse_motion;
 	iPoint mouse;
-	Sint32 windowW = SCREEN_WIDTH, windowH = SCREEN_HEIGHT;
 };

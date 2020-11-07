@@ -2,8 +2,9 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
-#include "ModuleWindow.h"
 #include "SDL/include/SDL.h"
+#include "ImGui/imgui_impl_sdl.h"
+
 
 #define MAX_KEYS 300
 
@@ -25,7 +26,7 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -36,7 +37,6 @@ bool ModuleInput::Init()
 
 update_status ModuleInput::PreUpdate() {
 	static SDL_Event event;
-	Uint32 windowID = SDL_GetWindowID(App->window->window);
 	mouse_motion = { 0, 0 };
 	memset(windowEvents, false, WE_COUNT * sizeof(bool));
 
@@ -78,29 +78,24 @@ update_status ModuleInput::PreUpdate() {
 			break;
 
 		case SDL_WINDOWEVENT:
-			if (event.window.windowID == windowID) {
-				switch (event.window.event)
-				{
-					//case SDL_WINDOWEVENT_LEAVE:
-				case SDL_WINDOWEVENT_HIDDEN:
-				case SDL_WINDOWEVENT_MINIMIZED:
-				case SDL_WINDOWEVENT_FOCUS_LOST:
-					windowEvents[WE_HIDE] = true;
-					break;
+			switch (event.window.event)
+			{
+				//case SDL_WINDOWEVENT_LEAVE:
+			case SDL_WINDOWEVENT_HIDDEN:
+			case SDL_WINDOWEVENT_MINIMIZED:
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				windowEvents[WE_HIDE] = true;
+				break;
 
-					//case SDL_WINDOWEVENT_ENTER:
-				case SDL_WINDOWEVENT_SHOWN:
-				case SDL_WINDOWEVENT_FOCUS_GAINED:
-				case SDL_WINDOWEVENT_MAXIMIZED:
-				case SDL_WINDOWEVENT_RESTORED:
-					windowEvents[WE_SHOW] = true;
-					break;
-				case SDL_WINDOWEVENT_SIZE_CHANGED:
-					windowW = event.window.data1;
-					windowH = event.window.data2;
-				}
+				//case SDL_WINDOWEVENT_ENTER:
+			case SDL_WINDOWEVENT_SHOWN:
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+			case SDL_WINDOWEVENT_MAXIMIZED:
+			case SDL_WINDOWEVENT_RESTORED:
+				windowEvents[WE_SHOW] = true;
 				break;
 			}
+			break;
 		case SDL_MOUSEBUTTONDOWN:
 			mouse_buttons[event.button.button - 1] = KEY_DOWN;
 			break;
@@ -121,13 +116,15 @@ update_status ModuleInput::PreUpdate() {
 	if (GetWindowEvent(EventWindow::WE_QUIT) == true || GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		return UPDATE_STOP;
 
+	ImGui_ImplSDL2_ProcessEvent(&event);
+
 	return UPDATE_CONTINUE;
 }
 
 // Called every draw update
 update_status ModuleInput::Update()
 {
-    return UPDATE_CONTINUE;
+	return UPDATE_CONTINUE;
 }
 
 // Called before quitting

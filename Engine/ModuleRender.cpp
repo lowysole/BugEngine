@@ -45,13 +45,14 @@ bool ModuleRender::Init()
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 	
 
-
 	return true;
 }
 
 update_status ModuleRender::PreUpdate()
 {
-	SDL_GetWindowSize(App->window->window, 0, 0);
+	ModuleWindow* window = App->window;
+	SDL_GetWindowSize(window->window, window->currentWidth, window->currentHeight);
+	glViewport(0, 0, *window->currentWidth, *window->currentHeight);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
