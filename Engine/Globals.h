@@ -14,10 +14,11 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 960
+#define SCREEN_WIDTH 1080
+#define SCREEN_HEIGHT 720
+#define SCREEN_BORDERLESS false
 #define FULLSCREEN false
 #define SCREEN_SIZE 2
 #define SCREEN_RESIZE true
 #define VSYNC true
-#define TITLE "Super Awesome Engine"
+#define TITLE "Blur Engine"

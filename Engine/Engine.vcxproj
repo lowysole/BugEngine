@@ -235,6 +235,9 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Time\Clock.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UIConsole.h" />
+    <ClInclude Include="UIInspector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algorithm\GJK.cpp" />
@@ -294,8 +297,9 @@
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleRenderExercise.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
-    <ClCompile Include="imgui_engine.cpp" />
     <ClCompile Include="Time\Clock.cpp" />
+    <ClCompile Include="UIConsole.cpp" />
+    <ClCompile Include="UIInspector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="emscripten\library_system.js" />

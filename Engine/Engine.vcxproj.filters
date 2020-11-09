@@ -4,9 +4,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ModuleInput.cpp" />
-    <ClCompile Include="ModuleRender.cpp" />
-    <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Algorithm\Random\LCG.cpp">
       <Filter>Algorithm</Filter>
     </ClCompile>
@@ -133,10 +130,6 @@
     <ClCompile Include="Time\Clock.cpp">
       <Filter>Time</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleCamera.cpp" />
-    <ClCompile Include="ModuleProgram.cpp" />
-    <ClCompile Include="ModuleRenderExercise.cpp" />
-    <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="ImGui\imgui.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -155,17 +148,35 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="imgui_engine.cpp">
-      <Filter>ImGui</Filter>
+    <ClCompile Include="ModuleCamera.cpp">
+      <Filter>MainModules</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleInput.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleProgram.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleRender.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleRenderExercise.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleWindow.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
+    <ClCompile Include="UIConsole.cpp">
+      <Filter>UIEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="UIInspector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Globals.h" />
-    <ClInclude Include="Module.h" />
-    <ClInclude Include="ModuleInput.h" />
-    <ClInclude Include="ModuleRender.h" />
-    <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="MathGeoLib.h" />
     <ClInclude Include="MathGeoLibFwd.h" />
     <ClInclude Include="MathBuildConfig.h" />
@@ -388,11 +399,7 @@
     <ClInclude Include="Time\Clock.h">
       <Filter>Time</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="ModuleProgram.h" />
-    <ClInclude Include="ModuleRenderExercise.h" />
-    <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="ImGui\imconfig.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -417,6 +424,37 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCamera.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEditor.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleInput.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleProgram.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRender.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRenderExercise.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleWindow.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="UIConsole.h">
+      <Filter>UIEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UIEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Module.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="UIInspector.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Algorithm">
@@ -436,6 +474,12 @@
     </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{6ac83f5f-324b-47fa-b42a-1682106bd816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainModules">
+      <UniqueIdentifier>{4084b1ab-b31a-4326-9839-3bd2b22d7fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UIEngine">
+      <UniqueIdentifier>{8ed5fcdb-98de-485e-8c42-0c1a871cbe97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

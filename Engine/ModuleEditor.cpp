@@ -4,9 +4,14 @@
 #include "Application.h"
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_impl_opengl3.h"
-#include "ImGui/"
 #include "SDL/include/SDL.h"
 #include "GL/glew.h"
+
+
+ModuleEditor::ModuleEditor() {
+	modules.push_back(console = new UIConsole());
+	modules.push_back(inspector = new UIInspector());
+}
 
 bool ModuleEditor::Init() {
 
@@ -14,51 +19,22 @@ bool ModuleEditor::Init() {
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
 	ImGui_ImplOpenGL3_Init();
 
+
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
 	return true;
 }
 
 update_status ModuleEditor::Update() {
 
+	glViewport(0, 0, *App->window->currentWidth, *App->window->currentHeight );
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
-	if (show_ui_engine) {
-		ShowUIEngine(&show_engine);
-	}
-
+	CheckUIWindows();
+	UIMainMenuBar();
 	ImGui::ShowDemoWindow();
-
-	{
-		static float f = 0.0f;
-		static int counter = 0;
-
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-		ImGui::Checkbox("Another Window", &show_another_window);
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::End();
-	}
-
-	if (show_another_window)
-	{
-		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		ImGui::Text("Hello from another window!");
-		if (ImGui::Button("Close Me"))
-			show_another_window = false;
-		ImGui::End();
-	}
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -72,4 +48,34 @@ bool ModuleEditor::CleanUp() {
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 	return true;
+}
+
+void ModuleEditor::UIMainMenuBar() {
+
+	if(ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("Windows")) {
+
+			ImGui::MenuItem("Console", NULL, &showUIConsole);
+			ImGui::MenuItem("Inspector", NULL, &showUIInspector);
+			ImGui::EndMenu();
+		}
+		ImGui::MenuItem("About", NULL, &showUIAbout);
+		ImGui::EndMainMenuBar();
+	}
+}
+
+void ModuleEditor::UIAbout(bool* p_open) {
+
+	ImGui::Begin("About", &showUIAbout);
+	ImGui::Text("Here we will have About Info");
+	ImGui::End();
+	
+}
+
+void ModuleEditor::CheckUIWindows() {
+
+	if (showUIAbout)			UIAbout(&showUIAbout);
+	if (showUIConsole)			console->Draw("Console", &showUIConsole);
+	if (showUIInspector)		inspector->Draw("Inspector", &showUIInspector);
+
 }

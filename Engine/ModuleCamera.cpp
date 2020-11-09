@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h" 
+#include "ModuleEditor.h"
+#include "UIInspector.h"
 
 
 ModuleCamera::ModuleCamera() {
@@ -12,6 +14,7 @@ ModuleCamera::ModuleCamera() {
 bool ModuleCamera::Init() {
 	
 	clock = Clock();
+	GetUIInformation();
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetViewPlaneDistances(nearPlane, farPlane);
 	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
@@ -30,19 +33,20 @@ update_status ModuleCamera::PreUpdate() {
 
 update_status ModuleCamera::Update() 
 {
+
 	float currentTime = clock.Time();
 	deltaTime = (currentTime - previousTime) / 1000.0;
 	previousTime = currentTime;
-	moveSpeed = 3.0f;
-	angleSpeed = 2.0f;
 
+	GetUIInformation();
 	SetAspectRatio();
 	SetFOV();
-	SetCameraSpeed();
+	
+	frustum.SetPos(cameraPosition);
+	ModifyCameraSpeed();
 	MoveHoritzontalPlane();
 	MoveVerticalAxis();
-	frustum.SetViewPlaneDistances(nearPlane, farPlane);
-	frustum.SetPos(cameraPosition);
+
 
 	RotateCamera();
 	projectionGL = frustum.ProjectionMatrix().Transposed();
@@ -66,7 +70,7 @@ void ModuleCamera::SetAspectRatio() {
 }
 
 void ModuleCamera::MoveHoritzontalPlane() {
-	float shift = deltaTime * moveSpeed;
+	float shift = deltaTime * cameraSpeed;
 	if (App->input->GetKey(SDL_SCANCODE_W)) {
 
 		cameraPosition = frustum.Front() * shift + cameraPosition;
@@ -83,7 +87,7 @@ void ModuleCamera::MoveHoritzontalPlane() {
 }
 
 void ModuleCamera::MoveVerticalAxis() {
-	float shift = deltaTime * moveSpeed;
+	float shift = deltaTime * cameraSpeed;
 	if (App->input->GetKey(SDL_SCANCODE_Q)) {
 		cameraPosition = float3::unitY * shift + cameraPosition;
 	}
@@ -132,11 +136,23 @@ void ModuleCamera::RotateCamera() {
 	frustum.SetFront(rotationMatrix.RotateAxisAngle(-frustum.WorldRight(), aX) * oldFront);
 }
 
-void ModuleCamera::SetCameraSpeed(){
+void ModuleCamera::ModifyCameraSpeed(){
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT)) {
-		moveSpeed *= 2;
+		cameraSpeed *= 2;
 		angleSpeed *= 2;
+		// TODO: Print updated velocity
 	}
+}
+
+void ModuleCamera::GetUIInformation() {
+	UIInspector* inspector = App->editor->inspector;
+	cameraSpeed = inspector->GetCameraSpeed();
+	angleSpeed = inspector->GetAngleSpeed();
+	float nPlan = inspector->GetNearPlane();
+	float fPlan = inspector->GetFarPlane();
+	nearPlane = nPlan;
+	farPlane = fPlan;
+	frustum.SetViewPlaneDistances(nearPlane, farPlane);
 }
 
 ModuleCamera::~ModuleCamera(){

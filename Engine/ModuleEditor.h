@@ -1,19 +1,36 @@
 #pragma once
 #include "Module.h"
-#include "ImGui/imgui.h"
+#include "UI.h"
+#include "UIConsole.h"
+#include "UIInspector.h"
+#include "imgui.h"
+#include <list>
 
 class ModuleEditor : public Module
 {
 public:
+
+	ModuleEditor();
 	bool Init();
-	//update_status PreUpdate();
 	update_status Update();
-	//update_status ProUpdate();
 	bool CleanUp();
 
-private:
-	bool show_demo_window = true;
-	bool show_another_window = false;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-};
+	//UI Modules
+	void UIMainMenuBar();
+	void UIAbout(bool* p_open);
+	void CheckUIWindows();
 
+
+public:
+	//Modules
+	std::list<UI*> modules;
+	UIConsole* console = nullptr;
+	UIInspector* inspector = nullptr;
+
+private:
+	//UI Modules activation
+	bool showUIAbout = false;
+	bool showUIConsole = true;
+	bool showUIInspector = true;
+
+};

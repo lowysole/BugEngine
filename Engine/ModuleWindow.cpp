@@ -25,8 +25,17 @@ bool ModuleWindow::Init()
 	else
 	{
 		//Create window
-		int width = SCREEN_WIDTH;
-		int height = SCREEN_HEIGHT;
+		SDL_DisplayMode dm;
+
+		if (SDL_GetDesktopDisplayMode(0, &dm) != 0)
+		{
+			SDL_Log("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+			return 1;
+		}
+
+		currentWidth = &dm.w;
+		currentHeight = &dm.h;
+
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
 
 		if(FULLSCREEN == true)
@@ -37,8 +46,13 @@ bool ModuleWindow::Init()
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
+		if (SCREEN_BORDERLESS == true) {
 
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+			flags |= SDL_WINDOW_BORDERLESS;
+		}
+
+		int offset = 100;
+		window = SDL_CreateWindow(TITLE, 0, 0, *currentWidth - offset, *currentHeight - offset, flags);
 
 		if(window == NULL)
 		{
@@ -57,11 +71,6 @@ bool ModuleWindow::Init()
 }
 
 update_status ModuleWindow::PreUpdate() {
-
-	//screen_surface->w = *currentWidth;
-	//screen_surface->h = *currentHeight;
-	//screen_surface->clip_rect.w = *currentWidth;
-	//screen_surface->clip_rect.h = *currentHeight;
 	return UPDATE_CONTINUE;
 }
 

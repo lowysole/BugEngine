@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "Application.h"
-#include "ModuleRender.h"
+#include "ModuleEditor.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"

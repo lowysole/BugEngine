@@ -26,7 +26,6 @@ public:
 	bool CleanUp();
 
 public:
-	//Moved to RenderExercise
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
