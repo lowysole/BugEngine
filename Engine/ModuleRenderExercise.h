@@ -13,7 +13,6 @@ class ModuleRenderExercise : public Module
 		void DestroyVBO(unsigned vbo);
 		bool CleanUp();
 
-	private:
 		unsigned vbo1;
 		void* context;
 };

@@ -2,8 +2,12 @@
 #include "Application.h"
 #include "ModuleProgram.h" 
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
+#include "ModuleDebugDraw.h"
 #include "GL/glew.h"
-#include "SDL/include/SDL.h"
+#include "SDL.h"
+#include "Geometry/Frustum.h"
+#include "debugdraw.h" 
 
 bool ModuleRenderExercise::Init() {
 
@@ -26,7 +30,9 @@ bool ModuleRenderExercise::Init() {
 	return true;
 }
 update_status ModuleRenderExercise::PreUpdate() {
-	SDL_GetWindowSize(App->window->window, 0, 0);
+	ModuleWindow* window = App->window;
+	SDL_GetWindowSize(window->window, window->currentWidth, window->currentHeight);
+	//glViewport(0, 0, 640, 480);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
@@ -34,7 +40,12 @@ update_status ModuleRenderExercise::PreUpdate() {
 
 update_status ModuleRenderExercise::Update() {
 
+	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+	dd::xzSquareGrid(-50, 50, 0.0f, 1.0f, dd::colors::Gray);
+	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), *App->window->currentWidth, *App->window->currentHeight);
+
 	unsigned program_id = App->program->GetProgramId();
+	
 	RenderVBO(vbo1, program_id);
 
 	return UPDATE_CONTINUE;
@@ -48,12 +59,23 @@ update_status ModuleRenderExercise::PostUpdate() {
 
 void ModuleRenderExercise::RenderVBO(unsigned vbo, unsigned program)
 {
+	
+	float4x4 model, view, projection;
+	// TODO: retrieve model view and projection
+	view = App->camera->GetViewMatrix();
+	projection = App->camera->GetProjectionMatrix();
+	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),float4x4::RotateZ(pi / 4.0f),float3(2.0f, 1.0f, 1.0f));
+
+	glUseProgram(program);
+	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, &projection[0][0]);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	glUseProgram(program);
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }

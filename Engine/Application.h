@@ -26,7 +26,7 @@ public:
 	bool CleanUp();
 
 public:
-	ModuleRender* renderer = nullptr;
+	ModuleRenderExercise* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleCamera* camera = nullptr;
