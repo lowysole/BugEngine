@@ -20,7 +20,7 @@ bool ModuleRenderExercise::Init() {
 	#endif // DEBUG
 
 	context = SDL_GL_CreateContext(App->window->window);
-
+	GLenum err = glewInit();
 	vbo1 = CreateTriangleVBO();
 
 	return true;

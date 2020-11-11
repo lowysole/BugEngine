@@ -21,9 +21,9 @@ bool ModuleCamera::Init() {
 	frustum.SetPos(float3(cameraPosition));
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
-	projectionGL = frustum.ProjectionMatrix().Transposed();
+	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
-	viewMatrix.Transpose();
+
 	return true;
 }
 
@@ -49,9 +49,9 @@ update_status ModuleCamera::Update()
 
 
 	RotateCamera();
-	projectionGL = frustum.ProjectionMatrix().Transposed();
+	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
-	viewMatrix.Transpose();
+
 	return UPDATE_CONTINUE;
 }
 

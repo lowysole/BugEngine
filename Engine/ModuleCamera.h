@@ -61,7 +61,7 @@ private:
 	float cameraSpeed;
 	float angleX = 0.0f, angleY = 0.0f;
 	float angleSpeed;
-	float nearPlane = 0.1f, farPlane = 30.f;
+	float nearPlane = 0.1f, farPlane = 50.f;
 	float aspectRatio;
 };
 
