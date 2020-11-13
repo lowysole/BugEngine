@@ -68,7 +68,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);./ImGui/</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);./ImGui/;./</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -76,13 +76,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalIncludeDirectories>./SDL/include;./glew-2.1.0/include;./ImGui/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SDL/include;./glew-2.1.0/include;./ImGui/;./devil/include;./assimp/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>./glew-2.1.0/lib/Release/Win32;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./glew-2.1.0/lib/Release/Win32;./devil/lib;./assimp/lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc141-mt.lib;DevIL.lib;ILU.lib;ILUT.lib;glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,6 +147,13 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="debugdraw.h" />
     <ClInclude Include="debug_draw.hpp" />
+    <ClInclude Include="devil\include\IL\devil_internal_exports.h" />
+    <ClInclude Include="devil\include\IL\il.h" />
+    <ClInclude Include="devil\include\IL\ilu.h" />
+    <ClInclude Include="devil\include\IL\ilut.h" />
+    <ClInclude Include="devil\include\IL\ilut_config.h" />
+    <ClInclude Include="devil\include\IL\ilu_region.h" />
+    <ClInclude Include="devil\include\IL\il_wrap.h" />
     <ClInclude Include="emscripten\library_system.h" />
     <ClInclude Include="Geometry\AABB.h" />
     <ClInclude Include="Geometry\AABB2D.h" />
@@ -235,6 +242,7 @@
     <ClInclude Include="ModuleProgram.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleRenderExercise.h" />
+    <ClInclude Include="ModuleTexture.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Time\Clock.h" />
@@ -300,6 +308,7 @@
     <ClCompile Include="ModuleProgram.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleRenderExercise.cpp" />
+    <ClCompile Include="ModuleTexture.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Time\Clock.cpp" />
     <ClCompile Include="UIConsole.cpp" />
@@ -307,6 +316,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="emscripten\library_system.js" />
+    <None Include="Game\default_fragment.glsl" />
+    <None Include="Game\default_vertex.glsl" />
     <None Include="Geometry\KDTree.inl" />
     <None Include="Geometry\QuadTree.inl" />
     <None Include="Geometry\TriangleMesh_IntersectRay_AVX.inl" />

@@ -1,6 +1,7 @@
-#include "ModuleRenderExercise.h"
+﻿#include "ModuleRenderExercise.h"
 #include "Application.h"
 #include "ModuleProgram.h" 
+#include "ModuleTexture.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera.h"
 #include "ModuleDebugDraw.h"
@@ -64,7 +65,7 @@ void ModuleRenderExercise::RenderVBO(unsigned vbo, unsigned program)
 	// TODO: retrieve model view and projection
 	view = App->camera->GetViewMatrix();
 	projection = App->camera->GetProjectionMatrix();
-	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),float4x4::RotateZ(pi / 4.0f),float3(2.0f, 1.0f, 1.0f));
+	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),float4x4::RotateZ(pi/4),float3(2.0f, 1.0f, 1.0f));
 
 	glUseProgram(program);
 	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, &model[0][0]);
@@ -72,17 +73,38 @@ void ModuleRenderExercise::RenderVBO(unsigned vbo, unsigned program)
 	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, &projection[0][0]);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
 	glEnableVertexAttribArray(0);
-	// size = 3 float per vertex
-	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 3, 3);
+
+
+	//Texture
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 6));
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, App->texture->GetImage());
+	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
+	
 }
 
 unsigned ModuleRenderExercise::CreateTriangleVBO()
 {
-	float vtx_data[] = { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+	float vtx_data[] = { 0.0f, 0.0f, 0.0f, // ← v0 pos
+						1.0f, 0.0f, 0.0f, // ← v1 pos
+						0.5f, 1.0f, 0.0f, // ← v2 pos
+						1.0f, 0.0f, 0.0f, // ← v1 pos
+						0.0f, 0.0f, 0.0f, // ← v0 pos
+						0.5f, -1.0f, 0.0f, // ← v3 pos
+						0.0f, 1.0f, // ← v0 texcoord
+						1.0f, 0.0f, // ← v1 texcoord
+						0.0f, 0.0f, // ← v2 texcoord
+						1.0f, 0.0f, // ← v0 texcoord
+						0.0f, 1.0f, // ← v2 texcoord
+						1.0f, 1.0f, // ← v1 texcoord
+	};
 	GLuint vbo;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo); // set vbo active

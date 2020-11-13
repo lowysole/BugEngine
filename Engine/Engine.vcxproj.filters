@@ -178,6 +178,9 @@
     <ClCompile Include="UIInspector.cpp">
       <Filter>UIEngine</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleTexture.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -467,6 +470,30 @@
     <ClInclude Include="UIInspector.h">
       <Filter>UIEngine</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleTexture.h">
+      <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\devil_internal_exports.h">
+      <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\il.h">
+      <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\il_wrap.h">
+      <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\ilu.h">
+      <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\ilu_region.h">
+      <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\ilut.h">
+      <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="devil\include\IL\ilut_config.h">
+      <Filter>IL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Algorithm">
@@ -492,6 +519,9 @@
     </Filter>
     <Filter Include="UIEngine">
       <UniqueIdentifier>{8ed5fcdb-98de-485e-8c42-0c1a871cbe97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IL">
+      <UniqueIdentifier>{c41e6b1f-b58a-4720-800e-103ff8844b60}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -519,5 +549,7 @@
     <None Include="Math\Matrix.inl">
       <Filter>Math</Filter>
     </None>
+    <None Include="Game\default_fragment.glsl" />
+    <None Include="Game\default_vertex.glsl" />
   </ItemGroup>
 </Project>
