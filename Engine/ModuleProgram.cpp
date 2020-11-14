@@ -82,6 +82,5 @@ unsigned ModuleProgram::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
 
 bool ModuleProgram::CleanUp(){
 
-	// TODO: Delete GL shaders
 	return true;
 }

@@ -8,13 +8,12 @@ class ModuleTexture : public Module
 {
 public:
 	bool Init();
-	update_status Update();
-	bool CleanUp();
-
+	GLuint LoadTexture(const char* shader_file_name);
 	GLuint GetImage() { return image; };
-
+	bool DeleteTexture(GLuint& image);
+	bool CleanUp();
+	
 private:
-	unsigned imageId;
 	GLuint image;
 };
 

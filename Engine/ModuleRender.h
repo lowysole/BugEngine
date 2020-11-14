@@ -1,22 +1,18 @@
 #pragma once
 #include "Module.h"
-#include "Globals.h"
-
-struct SDL_Texture;
-struct SDL_Renderer;
-struct SDL_Rect;
 
 class ModuleRender : public Module
 {
 public:
-	ModuleRender();
-	~ModuleRender();
-
 	bool Init();
 	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
+	void RenderVBO(unsigned vbo, unsigned program);
+	unsigned CreateTriangleVBO();
+	void DestroyVBO(unsigned vbo);
 	bool CleanUp();
 
+	unsigned vbo1;
 	void* context;
 };

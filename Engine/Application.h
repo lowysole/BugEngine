@@ -9,7 +9,6 @@ class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
 class ModuleCamera;
-class ModuleRenderExercise;
 class ModuleProgram;
 class ModuleTexture;
 class ModuleEditor;
@@ -27,7 +26,7 @@ public:
 	bool CleanUp();
 
 public:
-	ModuleRenderExercise* renderer = nullptr;
+	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleCamera* camera = nullptr;

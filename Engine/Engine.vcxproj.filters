@@ -163,9 +163,6 @@
     <ClCompile Include="ModuleRender.cpp">
       <Filter>MainModules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleRenderExercise.cpp">
-      <Filter>MainModules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleWindow.cpp">
       <Filter>MainModules</Filter>
     </ClCompile>
@@ -445,9 +442,6 @@
       <Filter>MainModules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleRender.h">
-      <Filter>MainModules</Filter>
-    </ClInclude>
-    <ClInclude Include="ModuleRenderExercise.h">
       <Filter>MainModules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleWindow.h">

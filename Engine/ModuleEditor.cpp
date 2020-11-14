@@ -1,7 +1,6 @@
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleRenderExercise.h"
 #include "Application.h"
 #include "ImGui/imgui_impl_sdl.h"
 #include "ImGui/imgui_impl_opengl3.h"

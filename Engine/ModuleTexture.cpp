@@ -7,13 +7,23 @@ bool ModuleTexture::Init() {
 
 	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
 	{
+		LOG("Incorrect IL version installed");
 		return false;
 	}
 	ilInit();
+	image = LoadTexture("lenna.png");
+
+	return true;
+}
+
+GLuint ModuleTexture::LoadTexture(const char* shader_file_name) {
+
+	unsigned imageId;
+	GLuint image;
 	ilGenImages(1, &imageId);
 	ilBindImage(imageId);
-	if (!ilLoadImage("lenna.png")) {
-	
+	if (!ilLoadImage(shader_file_name)) {
+
 		LOG("The texture hasn't been loaded corectly");
 		return false;
 	}
@@ -27,20 +37,18 @@ bool ModuleTexture::Init() {
 
 	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH),
 		ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
-		
-	return true;
-}
-
-update_status ModuleTexture::Update() {
-
-
-	return UPDATE_CONTINUE;
-}
-
-bool ModuleTexture::CleanUp() {
 
 	ilDeleteImages(1, &imageId);
-	glDeleteTextures(1, &image);
+	return image;
+}
 
+bool ModuleTexture::DeleteTexture(GLuint &image) {
+
+	glDeleteTextures(1, &image);
 	return true;
 }
+bool ModuleTexture::CleanUp() {
+	DeleteTexture(image);
+	return true;
+}
+
