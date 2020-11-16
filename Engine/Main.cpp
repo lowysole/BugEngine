@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "Globals.h"
+#include "UIConsole.h"
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/lib/x86/SDL2.lib" )
@@ -17,11 +18,14 @@ enum main_states
 };
 
 Application* App = NULL;
+UIConsole* console = NULL;
 
 int main(int argc, char ** argv)
 {
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
+
+	console = new UIConsole();
 
 	while (state != MAIN_EXIT)
 	{

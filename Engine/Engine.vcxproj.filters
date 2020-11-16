@@ -178,6 +178,10 @@
     <ClCompile Include="ModuleTexture.cpp">
       <Filter>MainModules</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp">
+      <Filter>MainModules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -487,6 +491,10 @@
     </ClInclude>
     <ClInclude Include="devil\include\IL\ilut_config.h">
       <Filter>IL</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h">
+      <Filter>MainModules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

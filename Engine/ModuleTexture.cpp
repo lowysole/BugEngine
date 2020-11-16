@@ -11,13 +11,13 @@ bool ModuleTexture::Init() {
 		return false;
 	}
 	ilInit();
-	image = LoadTexture("lenna.png");
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
 	return true;
 }
 
 GLuint ModuleTexture::LoadTexture(const char* shader_file_name) {
-
 	unsigned imageId;
 	GLuint image;
 	ilGenImages(1, &imageId);
@@ -48,7 +48,6 @@ bool ModuleTexture::DeleteTexture(GLuint &image) {
 	return true;
 }
 bool ModuleTexture::CleanUp() {
-	DeleteTexture(image);
 	return true;
 }
 

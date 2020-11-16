@@ -8,6 +8,7 @@
 #include "ModuleTexture.h"
 #include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
+#include "Model.h"
 
 using namespace std;
 
@@ -15,11 +16,12 @@ Application::Application()
 {
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(camera = new ModuleCamera());
+	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(renderer = new ModuleRender());
+	modules.push_back(model = new Model());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(program = new ModuleProgram());
-	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(debug_draw = new ModuleDebugDraw());
 }
 

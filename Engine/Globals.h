@@ -21,4 +21,4 @@ enum update_status
 #define SCREEN_SIZE 2
 #define SCREEN_RESIZE true
 #define VSYNC true
-#define TITLE "Blur Engine"
+#define TITLE "Bug Engine"
