@@ -11,6 +11,7 @@
 ModuleEditor::ModuleEditor() {
 	modules.push_back(console = new UIConsole());
 	modules.push_back(inspector = new UIInspector());
+	modules.push_back(config = new UIConfiguration());
 }
 
 bool ModuleEditor::Init() {
@@ -55,8 +56,9 @@ void ModuleEditor::UIMainMenuBar() {
 	if(ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("Windows")) {
 
-			ImGui::MenuItem("Console", NULL, &showUIConsole);
+			ImGui::MenuItem("Configuration", NULL, &showUIConfig);
 			ImGui::MenuItem("Inspector", NULL, &showUIInspector);
+			ImGui::MenuItem("Console", NULL, &showUIConsole);
 			ImGui::EndMenu();
 		}
 		ImGui::MenuItem("About", NULL, &showUIAbout);
@@ -67,7 +69,11 @@ void ModuleEditor::UIMainMenuBar() {
 void ModuleEditor::UIAbout(bool* p_open) {
 
 	ImGui::Begin("About", &showUIAbout);
-	ImGui::Text("Here we will have About Info");
+	ImGui::Text(TITLE);
+	ImGui::TextWrapped("Engine developed during the Advanced Videogames Programming Master");
+	ImGui::Text("Llorenç (Lowy) Solé");
+	ImGui::Text("GitHub: @lowysole");
+
 	ImGui::End();
 	
 }
@@ -77,5 +83,6 @@ void ModuleEditor::CheckUIWindows() {
 	if (showUIAbout)			UIAbout(&showUIAbout);
 	if (showUIConsole)			console->Draw("Console", &showUIConsole);
 	if (showUIInspector)		inspector->Draw("Inspector", &showUIInspector);
+	if (showUIConfig)			config->Draw("Configuration", &showUIConfig);
 
 }

@@ -182,6 +182,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>MainModules</Filter>
     </ClCompile>
+    <ClCompile Include="UIConfiguration.cpp">
+      <Filter>UIEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -495,6 +498,9 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h">
       <Filter>MainModules</Filter>
+    </ClInclude>
+    <ClInclude Include="UIConfiguration.h">
+      <Filter>UIEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

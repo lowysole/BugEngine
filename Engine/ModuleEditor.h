@@ -3,6 +3,7 @@
 #include "UI.h"
 #include "UIConsole.h"
 #include "UIInspector.h"
+#include "UIConfiguration.h"
 #include "imgui.h"
 #include <list>
 
@@ -26,11 +27,13 @@ public:
 	std::list<UI*> modules;
 	UIConsole* console = nullptr;
 	UIInspector* inspector = nullptr;
+	UIConfiguration* config = nullptr;
 
 private:
 	//UI Modules activation
 	bool showUIAbout = false;
 	bool showUIConsole = true;
 	bool showUIInspector = true;
+	bool showUIConfig = true;
 
 };
