@@ -185,6 +185,9 @@
     <ClCompile Include="UIConfiguration.cpp">
       <Filter>UIEngine</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>UIEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />

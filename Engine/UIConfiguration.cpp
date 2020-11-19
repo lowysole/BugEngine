@@ -1,6 +1,10 @@
 #include "UIConfiguration.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "SDL.h"
+#include "GL/glew.h"
+#include "IL/il.h"
+#include "imgui.h"
 
 void UIConfiguration::Draw(const char* title, bool* p_open) {
 
@@ -50,14 +54,48 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
 
     if (ImGui::CollapsingHeader("Application")) {
 
-        ImGui::Text("Here will App info");
+        ImGui::Text("Engine name");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), TITLE);
+        ImGui::Text("Organization");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "UPC TechSchool");
+        ImGui::Separator();
+        //sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size()-1])
         //TODO: Complete
     }
 
-    if (ImGui::CollapsingHeader("Hardware")) {
+    if (ImGui::CollapsingHeader("System")) {
 
-        ImGui::Text("Here will hardware config");
         //TODO: Complete
+        SDL_version compiled;
+        SDL_VERSION(&compiled);
+        GLint vGlMajor;
+        GLint vGlMinor;
+        glGetIntegerv(GL_MAJOR_VERSION, &vGlMajor);
+        glGetIntegerv(GL_MINOR_VERSION, &vGlMinor);
+        //ILInit devILv = ilGetInteger(IL_VERSION_NUM);
+        ImGui::Text("Software ");
+        ImGui::Text("SDL Version: ");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d.%d", compiled.major, compiled.minor);
+        ImGui::Text("OpenGL Version: ");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d.%d", vGlMajor, vGlMinor);
+        ImGui::Separator();
+        ImGui::Text("DevIL Version: ");
+        ImGui::SameLine();
+        //ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d", );
+        ImGui::Separator();
+        ImGui::Text("Hardware ");
+        ImGui::Text("CPUs: ");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d, (Cache: %d)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize() );
+        ImGui::Text("System RAM: ");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%.2d GB", SDL_GetSystemRAM()/1024);
+        ImGui::Separator();
+
     }
     ImGui::End();
 

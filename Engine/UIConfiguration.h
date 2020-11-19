@@ -1,5 +1,4 @@
 #pragma once
-#include "imgui.h"
 #include "UI.h"
 
 class UIConfiguration : public UI

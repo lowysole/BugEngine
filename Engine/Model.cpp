@@ -45,7 +45,7 @@ void Model::LoadMeshes(const aiScene* scene)
 	meshes.reserve(scene->mNumMeshes);
 	for (unsigned i = 0; i < scene->mNumMeshes; ++i) {
 
-		Mesh* mesh = new Mesh;
+		Mesh* mesh = new Mesh();
 		mesh->LoadVBO(scene->mMeshes[i]);
 		mesh->LoadEBO(scene->mMeshes[i]);
 		mesh->CreateVAO();

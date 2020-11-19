@@ -1,4 +1,5 @@
 #include <algorithm>
+#include "Globals.h"
 #include "ModuleCamera.h"
 #include "Application.h"
 #include "ModuleWindow.h"
@@ -153,6 +154,23 @@ void ModuleCamera::GetUIInformation() {
 	nearPlane = nPlan;
 	farPlane = fPlan;
 	frustum.SetViewPlaneDistances(nearPlane, farPlane);
+}
+
+float3 ModuleCamera::GetModelPosition(const float4x4& model) const {
+
+	return float3(model[3][0], model[3][1], model[3][2]);
+}
+
+float3 ModuleCamera::GetModelRotation(const float4x4& model) const {
+
+	return float3(atan2(model[3][2], model[3][3]),
+				  atan2(-model[3][1], sqrt(model[3][2] * model[3][2] + model[3][3] * model[3][3])),
+				  atan2(model[2][1], model[1][1]));
+}
+
+float3 ModuleCamera::GetModelScale(const float4x4& model) const {
+
+	return model.GetScale();
 }
 
 ModuleCamera::~ModuleCamera(){

@@ -49,6 +49,10 @@ public:
 	float2 GetPlaneDistance() { return float2(nearPlane, farPlane); };
 	void SetPlaneDistance(float nearP, float farP) { nearPlane = nearP; farPlane = farP; }
 
+	float3 GetModelPosition(const float4x4& model) const;
+	float3 GetModelRotation(const float4x4& model) const;
+	float3 GetModelScale(const float4x4& model) const;
+
 private:
 
 	Clock clock;

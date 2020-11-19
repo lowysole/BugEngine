@@ -1,4 +1,5 @@
 #include "UIConsole.h"
+#include "imgui.h"
 
 UIConsole::UIConsole() {
     AutoScroll = true;

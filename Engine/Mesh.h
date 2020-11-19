@@ -3,6 +3,7 @@
 #include <assimp\scene.h>
 #include <assimp\postprocess.h>
 #include <vector>
+#include "Math/float4x4.h"
 
 class Mesh
 {
@@ -14,6 +15,11 @@ public:
 
 	//Getters & Setters
 	void SetMaterialIndex(const unsigned num) { materialIndex = num; };
+	unsigned GetNumVertices() const { return numVertices; };
+	unsigned GetNumFaces() const { return numFaces; };
+	unsigned GetMaterialIndex() const { return materialIndex; };
+	const float4x4 GetModelMatrix() const { return model; };
+
 
 private:
 	unsigned vbo;
@@ -21,6 +27,9 @@ private:
 	unsigned vao;
 	unsigned numVertices;
 	unsigned numIndices;
+	unsigned numFaces;
 	unsigned materialIndex;
+	float4x4 model;
+	float maxY;
 };
 

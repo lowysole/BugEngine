@@ -18,4 +18,24 @@ enum update_status
 #define SCREEN_HEIGHT 720
 #define SCREEN_SIZE 2
 #define VSYNC true
-#define TITLE "Bug Engine"
+#define TITLE "BUG Engine"
+
+// Deletes a buffer
+#define RELEASE( x ) \
+    {\
+       if( x != nullptr )\
+       {\
+         delete x;\
+	     x = nullptr;\
+       }\
+    }
+
+// Deletes an array of buffers
+#define RELEASE_ARRAY( x ) \
+	{\
+       if( x != nullptr )\
+       {\
+           delete[] x;\
+	       x = nullptr;\
+		 }\
+	 }

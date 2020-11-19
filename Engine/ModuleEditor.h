@@ -1,4 +1,5 @@
 #pragma once
+#include "Globals.h"
 #include "Module.h"
 #include "UI.h"
 #include "UIConsole.h"
@@ -31,6 +32,7 @@ public:
 
 private:
 	//UI Modules activation
+	bool exit = false;
 	bool showUIAbout = false;
 	bool showUIConsole = true;
 	bool showUIInspector = true;

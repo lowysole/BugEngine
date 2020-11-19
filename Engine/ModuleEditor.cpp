@@ -28,6 +28,10 @@ bool ModuleEditor::Init() {
 
 update_status ModuleEditor::Update() {
 
+	if (exit) {
+		return UPDATE_STOP;
+	}
+
 	glViewport(0, 0, *App->window->currentWidth, *App->window->currentHeight );
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
@@ -48,12 +52,23 @@ bool ModuleEditor::CleanUp() {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
+	//delete &modules;
 	return true;
 }
 
 void ModuleEditor::UIMainMenuBar() {
 
 	if(ImGui::BeginMainMenuBar()) {
+
+		if (ImGui::BeginMenu("Menu")) {
+
+			if (ImGui::MenuItem("GitHub")) {
+				ShellExecuteA(NULL, "open", "https://github.com/lowysole/master_exercises/tree/main/Engine", NULL, NULL, SW_SHOWNORMAL);
+			}
+			ImGui::Separator();
+			ImGui::MenuItem("Quit", NULL, &exit);
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Windows")) {
 
 			ImGui::MenuItem("Configuration", NULL, &showUIConfig);
@@ -69,11 +84,29 @@ void ModuleEditor::UIMainMenuBar() {
 void ModuleEditor::UIAbout(bool* p_open) {
 
 	ImGui::Begin("About", &showUIAbout);
-	ImGui::Text(TITLE);
-	ImGui::TextWrapped("Engine developed during the Advanced Videogames Programming Master");
-	ImGui::Text("Llorenç (Lowy) Solé");
-	ImGui::Text("GitHub: @lowysole");
+	ImGui::TextWrapped(TITLE " v1.0" );
+	ImGui::Separator();
+	ImGui::Text(u8"By Llorenç (Lowy) Solé.");
+	ImGui::TextWrapped("Engine developed during the Master in Advanced Programming for AAA Video Games by UPC.");
+	ImGui::TextWrapped("Bug Engine licensed under the MIT License.");
+	ImGui::Separator();
 
+	static bool showLibrary = false;
+	ImVec2 child_size = ImVec2(0, ImGui::GetTextLineHeightWithSpacing()*6);
+
+	ImGui::Checkbox("Libraries", &showLibrary);
+	if (showLibrary){
+
+		ImGui::BeginChildFrame(ImGui::GetID("cfg_infos"), child_size);
+		ImGui::Text("MathGeoLib v1.5 ");
+		ImGui::Text("Simple DirectMedia Layer (SDL) v2.0");
+		ImGui::Text("ImGui Docking");
+		ImGui::Text("OpenGL Extension Wrangler Library 2.1.0");
+		ImGui::Text("DevIL 1.8.0");
+		ImGui::Text("Assimp 1.4.1");
+
+		ImGui::EndChildFrame();
+	}
 	ImGui::End();
 	
 }

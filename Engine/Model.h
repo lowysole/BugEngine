@@ -17,6 +17,10 @@ public:
 	void LoadMaterials(const aiScene* scene);
 	bool CleanUp();
 
+	//Getter & Setters
+	std::vector<Mesh*> GetMeshes() { return meshes; };
+	std::vector<GLuint> GetMaterials() { return materials; };
+
 private:
 	std::vector<Mesh*> meshes;
 	std::vector<GLuint> materials;

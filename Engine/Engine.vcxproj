@@ -313,6 +313,7 @@
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleTexture.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Time\Clock.cpp" />
     <ClCompile Include="UIConfiguration.cpp" />
     <ClCompile Include="UIConsole.cpp" />

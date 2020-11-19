@@ -11,8 +11,8 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
 	unsigned bufferSize = vertexSize * mesh->mNumVertices;
-	
 	float* data = new float[bufferSize];
+	float yMax = 0.0f;
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
 		int j = i * 5;
 		data[j] = mesh->mVertices[i].x;
@@ -20,10 +20,13 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 		data[j+2] = mesh->mVertices[i].z;
 		data[j+3] = mesh->mTextureCoords[0][i].x;
 		data[j+4] = mesh->mTextureCoords[0][i].y;
+
+		if (data[j + 2] > yMax) yMax = data[j + 2];
 	}
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, data, GL_STATIC_DRAW);
 	delete[] data;
 	numVertices = mesh->mNumVertices;
+	maxY = yMax;
 }
 
 void Mesh::LoadEBO(const aiMesh* mesh)
@@ -42,6 +45,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 	}
 	glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
 	numIndices = index_size;
+	numFaces = mesh->mNumFaces;
 }
 
 void Mesh::CreateVAO()
@@ -62,7 +66,7 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures)
 	unsigned program = App->program->GetProgramId();
 	const float4x4& view = App->camera->GetViewMatrix();
 	const float4x4& proj = App->camera->GetProjectionMatrix();
-	float4x4 model = float4x4::identity;
+	model = float4x4::identity;
 	glUseProgram(program);
 	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
 	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
