@@ -9,9 +9,10 @@
 
 
 ModuleEditor::ModuleEditor() {
-	modules.push_back(console = new UIConsole());
-	modules.push_back(inspector = new UIInspector());
-	modules.push_back(config = new UIConfiguration());
+	windowsUI.reserve(3);
+	windowsUI.push_back(console = new UIConsole());
+	windowsUI.push_back(inspector = new UIInspector());
+	windowsUI.push_back(config = new UIConfiguration());
 }
 
 bool ModuleEditor::Init() {

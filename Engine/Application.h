@@ -1,6 +1,6 @@
 #pragma once
 
-#include<list>
+#include <vector>
 #include "Globals.h"
 #include "Module.h"
 
@@ -40,7 +40,7 @@ public:
 
 private:
 
-	std::list<Module*> modules;
+	std::vector<Module*> modules;
 
 };
 

@@ -6,7 +6,7 @@
 #include "UIInspector.h"
 #include "UIConfiguration.h"
 #include "imgui.h"
-#include <list>
+#include <vector>
 
 class ModuleEditor : public Module
 {
@@ -25,7 +25,7 @@ public:
 
 public:
 	//Modules
-	std::list<UI*> modules;
+	std::vector<UI*> windowsUI;
 	UIConsole* console = nullptr;
 	UIInspector* inspector = nullptr;
 	UIConfiguration* config = nullptr;
