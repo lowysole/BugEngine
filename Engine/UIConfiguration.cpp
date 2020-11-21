@@ -1,6 +1,7 @@
 #include "UIConfiguration.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "GL/glew.h"
 #include "IL/il.h"
@@ -67,7 +68,7 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
     }
 
     if (ImGui::CollapsingHeader("Application")) {
-
+        ImVec2 size = ImGui::GetItemRectSize();
         ImGui::Text("Engine name");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), TITLE);
@@ -75,13 +76,31 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "UPC TechSchool");
         ImGui::Separator();
-        //sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size()-1])
+        if (ImGui::Button("1s")) {
+            time = 1;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("5s")) {
+            time = 5;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("10s")) {
+            time = 10;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("20s")) {
+            time = 20;
+        }
+        App->camera->SetTime(time);
+        char name[25];
+        sprintf_s(name, 25, "Framerate(FPS) %.1f", App->camera->fpsLog[IM_ARRAYSIZE(App->camera->fpsLog) - 1]);
+        ImGui::PlotHistogram("##framerate", &App->camera->fpsLog[0], IM_ARRAYSIZE(App->camera->fpsLog), 0, name, 0.0f, App->camera->GetMaxFPS() +50 , ImVec2(300,100));
         //TODO: Complete
     }
 
     if (ImGui::CollapsingHeader("System")) {
 
-        //TODO: Complete
+        //TODO: Completes
         SDL_version compiled;
         SDL_VERSION(&compiled);
         GLint vGlMajor;
@@ -89,7 +108,7 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         glGetIntegerv(GL_MAJOR_VERSION, &vGlMajor);
         glGetIntegerv(GL_MINOR_VERSION, &vGlMinor);
         int devILv = (int)ilGetInteger(IL_VERSION_NUM);
-        const GLubyte* vendor = glGetString(GL_RENDERER);
+        const GLubyte* gpuVersion = glGetString(GL_RENDERER);
         ImGui::Text("Software ");
         ImGui::Text("SDL Version: ");
         ImGui::SameLine();
@@ -111,9 +130,11 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::Separator();
         ImGui::Text("GPU Model: ");
         ImGui::SameLine();
-        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d", glGetString(GL_RENDERER));
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d", (const char*)gpuVersion);
         ImGui::Separator();
 
     }
     ImGui::End();
 }
+
+

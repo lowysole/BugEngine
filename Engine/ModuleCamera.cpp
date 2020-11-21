@@ -34,10 +34,10 @@ update_status ModuleCamera::PreUpdate() {
 
 update_status ModuleCamera::Update() 
 {
-
 	float currentTime = clock.Time();
 	deltaTime = (currentTime - previousTime) / 1000.0;
 	previousTime = currentTime;
+	CalculateFrameRate();
 
 	GetUIInformation();
 	SetAspectRatio();
@@ -45,11 +45,8 @@ update_status ModuleCamera::Update()
 	
 	frustum.SetPos(cameraPosition);
 	ModifyCameraSpeed();
-	MoveHoritzontalPlane();
-	MoveVerticalAxis();
+	FlythroughMode();
 
-
-	RotateCamera();
 	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
 
@@ -70,51 +67,52 @@ void ModuleCamera::SetAspectRatio() {
 	aspectRatio = (float)*App->window->GetCurrentWidth() / (float)*App->window->GetCurrentHeight();
 }
 
-void ModuleCamera::MoveHoritzontalPlane() {
+void ModuleCamera::FlythroughMode() {
+
 	float shift = deltaTime * cameraSpeed;
-	if (App->input->GetKey(SDL_SCANCODE_W)) {
-
-		cameraPosition = frustum.Front() * shift + cameraPosition;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S)) {
-		cameraPosition = -frustum.Front() * shift + cameraPosition;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_A)) {
-		cameraPosition = -frustum.WorldRight() * shift + cameraPosition;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D)) {
-		cameraPosition = frustum.WorldRight() * shift + cameraPosition;
-	}
-}
-
-void ModuleCamera::MoveVerticalAxis() {
-	float shift = deltaTime * cameraSpeed;
-	if (App->input->GetKey(SDL_SCANCODE_Q)) {
-		cameraPosition = float3::unitY * shift + cameraPosition;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_E)) {
-		cameraPosition = -float3::unitY * shift + cameraPosition;
-	}
-}
-
-void ModuleCamera::RotateCamera() {
 	float angleShift = deltaTime * angleSpeed;
 	float aX = 0, aY = 0;
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT)) {
+
+		if (App->input->GetKey(SDL_SCANCODE_W)) 
+			cameraPosition = frustum.Front() * shift + cameraPosition;
+		
+		if (App->input->GetKey(SDL_SCANCODE_S)) 
+			cameraPosition = -frustum.Front() * shift + cameraPosition;
+		
+		if (App->input->GetKey(SDL_SCANCODE_A)) 
+			cameraPosition = -frustum.WorldRight() * shift + cameraPosition;
+		
+		if (App->input->GetKey(SDL_SCANCODE_D)) 
+			cameraPosition = frustum.WorldRight() * shift + cameraPosition;
+		
+		if (App->input->GetKey(SDL_SCANCODE_Q)) 
+			cameraPosition = float3::unitY * shift + cameraPosition;
+		
+		if (App->input->GetKey(SDL_SCANCODE_E)) 
+			cameraPosition = -float3::unitY * shift + cameraPosition;	
+
+
+		if (App->input->GetMouseMotion().y < 0) {
+			aX = -angleShift;
+		}
+		if (App->input->GetMouseMotion().y > 0) {
+			aX = angleShift;
+		}
+		if (App->input->GetMouseMotion().x < 0) {
+			aY = angleShift;
+		}
+		if (App->input->GetMouseMotion().x > 0) {
+			aY = -angleShift;
+		}
+		RotateCamera(aX, aY);
+	}	
+}
+
+void ModuleCamera::RotateCamera(float aX, float aY) {
+
 	float3x3 rotationMatrix;
-
-	if (App->input->GetKey(SDL_SCANCODE_UP)) {
-		aX = -angleShift;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_DOWN)) {
-		aX = angleShift;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_LEFT)) {
-		aY = angleShift;
-	}
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT)) {
-		aY = -angleShift;
-	}
-
 	// Check Vertical Clamp
 	angleX += aX;
 	angleY += aY;
@@ -171,6 +169,27 @@ float3 ModuleCamera::GetModelRotation(const float4x4& model) const {
 float3 ModuleCamera::GetModelScale(const float4x4& model) const {
 
 	return model.GetScale();
+}
+
+void ModuleCamera::CalculateFrameRate() {
+
+	float currentTime = clock.Time();
+	++frames;
+	if (currentTime - lastTime > 1000.0f * time){
+
+		lastTime = currentTime;
+		int fps = frames / time;
+		if (fps > fpsMax) {
+			fpsMax = fps;
+		}
+		frames = 0;
+
+		for (size_t i = 1; i < IM_ARRAYSIZE(fpsLog); i++) {
+			fpsLog[i - 1] = fpsLog[i];
+		}
+		fpsLog[IM_ARRAYSIZE(fpsLog) - 1] = fps;
+	}
+
 }
 
 ModuleCamera::~ModuleCamera(){

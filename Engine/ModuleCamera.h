@@ -25,15 +25,17 @@ public:
 
 	float4x4 GetProjectionMatrix() const { return projectionGL; };
 	float4x4 GetViewMatrix() const { return viewMatrix; };
-	void MoveHoritzontalPlane();
-	void MoveVerticalAxis();
-	void RotateCamera();
+	void FlythroughMode();
+	void RotateCamera(float aX, float aY);
 	void ModifyCameraSpeed();
 	void SetFOV();
 	void SetAspectRatio();
 	void GetUIInformation();
+	void CalculateFrameRate();
 
-
+	//Getters & Setters
+	int GetMaxFPS() { return fpsMax; };
+	void SetTime(int other) { time = other; };
 	float3 GetPosition() { return cameraPosition; };
 	void SetPosition(float3 other) { cameraPosition = other; };
 	float GetCameraSpeed() { return cameraSpeed; };
@@ -53,11 +55,21 @@ public:
 	float3 GetModelRotation(const float4x4& model) const;
 	float3 GetModelScale(const float4x4& model) const;
 
+	float fpsLog[25] = {};
+
 private:
 
+	//Time
 	Clock clock;
 	float deltaTime;
 	float previousTime = 0.0f;
+	int frames = 0;
+	float lastTime = 0.0f;
+	int time = 1;
+	int fpsMax;
+
+
+	//Camera
 	Frustum frustum;
 	float4x4 projectionGL;
 	float4x4 viewMatrix;
