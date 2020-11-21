@@ -6,6 +6,7 @@
 #include "IL/il.h"
 #include "imgui.h"
 
+
 void UIConfiguration::Draw(const char* title, bool* p_open) {
 
     if (!ImGui::Begin(title, p_open))
@@ -17,37 +18,50 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
 
 
     if (ImGui::CollapsingHeader("Window")) {
-
+        ModuleWindow window = *App->window;
         ImGui::Text("Window Settings");
 
         if (ImGui::SliderInt("Brightness", &brightness, 0, 100)) {
             App->window->SetBrightness(brightness);
         }
-        // TODO: Add weight and height
+        if (resizable) {
+            windowWidth = App->window->GetCurrentWidth();
+            windowHeight = App->window->GetCurrentHeight();
+            if (ImGui::SliderInt("Width", windowWidth, 800, maxWidth) || 
+                ImGui::SliderInt("Heigth", windowHeight, 600, maxHeight)) {
+
+                SDL_SetWindowSize(App->window->GetWindow(), *windowWidth, *windowHeight);
+            }
+        }
 
         if (ImGui::Checkbox("Fullscreen", &fullscreen)) {
+
             App->window->SetFullScreen(fullscreen);
         }
 
         ImGui::SameLine();
 
         if (!borderless) {
+
             if (ImGui::Checkbox("Resizable", &resizable)) {
                 App->window->SetResizable(resizable);
             }
         }
         else {
+
             ImGui::TextDisabled("No resizable");
             ImGui::SameLine(); HelpMarker("Option disabled when Borderless activated.");
         }
 
         if (ImGui::Checkbox("Borderless", &borderless)) {
+
             App->window->SetBoderless(borderless);
         }
 
         ImGui::SameLine();
 
         if (ImGui::Checkbox("Full Desktop", &fullDesktop)) {
+
             App->window->SetFullDesktop(fullscreen);
         }
     }
@@ -74,7 +88,8 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         GLint vGlMinor;
         glGetIntegerv(GL_MAJOR_VERSION, &vGlMajor);
         glGetIntegerv(GL_MINOR_VERSION, &vGlMinor);
-        //ILInit devILv = ilGetInteger(IL_VERSION_NUM);
+        int devILv = (int)ilGetInteger(IL_VERSION_NUM);
+        const GLubyte* vendor = glGetString(GL_RENDERER);
         ImGui::Text("Software ");
         ImGui::Text("SDL Version: ");
         ImGui::SameLine();
@@ -82,10 +97,9 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::Text("OpenGL Version: ");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d.%d", vGlMajor, vGlMinor);
-        ImGui::Separator();
         ImGui::Text("DevIL Version: ");
         ImGui::SameLine();
-        //ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d", );
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d.%d.%d", devILv/100, devILv/10%10, devILv%10);
         ImGui::Separator();
         ImGui::Text("Hardware ");
         ImGui::Text("CPUs: ");
@@ -95,9 +109,11 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%.2d GB", SDL_GetSystemRAM()/1024);
         ImGui::Separator();
+        ImGui::Text("GPU Model: ");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d", glGetString(GL_RENDERER));
+        ImGui::Separator();
 
     }
     ImGui::End();
-
-
 }

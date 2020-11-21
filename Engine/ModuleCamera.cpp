@@ -67,7 +67,7 @@ void ModuleCamera::SetFOV() {
 }
 
 void ModuleCamera::SetAspectRatio() {
-	aspectRatio = (float)*App->window->currentWidth / (float)*App->window->currentHeight;
+	aspectRatio = (float)*App->window->GetCurrentWidth() / (float)*App->window->GetCurrentHeight();
 }
 
 void ModuleCamera::MoveHoritzontalPlane() {

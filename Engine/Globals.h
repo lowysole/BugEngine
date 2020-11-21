@@ -14,8 +14,6 @@ enum update_status
 };
 
 // Configuration -----------
-#define SCREEN_WIDTH 1080
-#define SCREEN_HEIGHT 720
 #define SCREEN_SIZE 2
 #define VSYNC true
 #define TITLE "BUG Engine"

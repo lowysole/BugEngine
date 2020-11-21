@@ -1,6 +1,8 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleEditor.h"
+#include "UIConfiguration.h"
 
 
 bool ModuleWindow::Init()
@@ -25,6 +27,8 @@ bool ModuleWindow::Init()
 
 		currentWidth = &dm.w;
 		currentHeight = &dm.h;
+		App->editor->config->SetMaxWidht(*currentWidth);
+		App->editor->config->SetMaxHeight(*currentHeight);
 
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
 
@@ -60,7 +64,6 @@ bool ModuleWindow::Init()
 
 	return ret;
 }
-
 
 void ModuleWindow::SetFullScreen(bool flag) {
 

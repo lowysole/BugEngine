@@ -18,7 +18,7 @@ ModuleEditor::ModuleEditor() {
 bool ModuleEditor::Init() {
 
 	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->context);
+	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->GetContext());
 	ImGui_ImplOpenGL3_Init();
 
 
@@ -33,9 +33,9 @@ update_status ModuleEditor::Update() {
 		return UPDATE_STOP;
 	}
 
-	glViewport(0, 0, *App->window->currentWidth, *App->window->currentHeight );
+	glViewport(0, 0, *App->window->GetCurrentWidth(), *App->window->GetCurrentHeight());
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->window->window);
+	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();
 
 	CheckUIWindows();

@@ -1,6 +1,4 @@
-#ifndef __ModuleWindow_H__
-#define __ModuleWindow_H__
-
+#pragma once
 #include <vector>
 #include "Module.h"
 #include "SDL/include/SDL.h"
@@ -12,30 +10,31 @@ class ModuleWindow : public Module
 public:
 
 	bool Init();
+	bool CleanUp();
+
+
 	void SetFullScreen(bool flag);
 	void SetResizable(bool flag);
 	void SetBoderless(bool flag);
 	void SetFullDesktop(bool flag);
 	void SetBrightness(int value);
-	bool CleanUp();
 
+	//Getters & Setters
+	SDL_Window* GetWindow() { return window; };
+	int* GetCurrentWidth() { return currentWidth; };
+	void SetCurrentWidth(int* other) { currentWidth = other;  };
+	int* GetCurrentHeight() { return currentHeight; };
+	void SetCurrentHeight(int* other) { currentHeight = other; };
 
+private:
 
-public:
-	//The window we'll be rendering to
 	SDL_Window* window = NULL;
 	int* currentWidth;
 	int* currentHeight;
-
-	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
-
-private:
 	bool fullscreen = false;
-	bool resizable = false;
+	bool resizable = true;
 	bool borderless = false;
 	bool fullDesktop = false;
 
 };
-
-#endif // __ModuleWindow_H__

@@ -18,7 +18,7 @@ bool ModuleRender::Init() {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
-	context = SDL_GL_CreateContext(App->window->window);
+	context = SDL_GL_CreateContext(App->window->GetWindow());
 	GLenum err = glewInit();
 
 	return true;
@@ -27,7 +27,7 @@ bool ModuleRender::Init() {
 update_status ModuleRender::PreUpdate() {
 
 	ModuleWindow* window = App->window;
-	SDL_GetWindowSize(window->window, window->currentWidth, window->currentHeight);
+	SDL_GetWindowSize(window->GetWindow(), window->GetCurrentWidth(), window->GetCurrentHeight());
 	//glViewport(0, 0, 640, 480);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -38,7 +38,7 @@ update_status ModuleRender::Update() {
 
 	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
 	dd::xzSquareGrid(-50, 50, 0.0f, 1.0f, dd::colors::Gray);
-	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), *App->window->currentWidth, *App->window->currentHeight);
+	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), *App->window->GetCurrentWidth(), *App->window->GetCurrentHeight());
 
 	unsigned program_id = App->program->GetProgramId();
 
@@ -47,7 +47,7 @@ update_status ModuleRender::Update() {
 
 update_status ModuleRender::PostUpdate() {
 
-	SDL_GL_SwapWindow(App->window->window);
+	SDL_GL_SwapWindow(App->window->GetWindow());
 	return UPDATE_CONTINUE;
 }
 
