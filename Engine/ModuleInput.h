@@ -38,24 +38,15 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	// Check key states (includes mouse and joy buttons)
-	KeyState GetKey(int id) const
-	{
-		return keyboard[id];
-	}
 
-	KeyState GetMouseButtonDown(int id) const
-	{
-		return mouse_buttons[id - 1];
-	}
-
-	// Check for window events last frame
-	bool GetWindowEvent(EventWindow code) const;
-
-	// Get mouse / axis position
-	const iPoint& GetMouseMotion() const;
-	const iPoint& GetMousePosition() const;
-
+	// Getters & Setters
+	KeyState GetKey(int id) const { return keyboard[id]; };
+	KeyState GetMouseButtonDown(int id) const {return mouse_buttons[id - 1];};
+	bool GetWindowEvent(EventWindow code) const { return windowEvents[code]; };
+	const iPoint& GetMouseMotion() const { return mouse_motion; };
+	const iPoint& GetMousePosition() const { return mouse; };
+	const int GetMouseWheel() const { return mouseWheel; };
+	void SetMouseWheelTo0() { mouseWheel = 0; };
 
 private:
 	bool windowEvents[WE_COUNT];
@@ -63,4 +54,5 @@ private:
 	KeyState mouse_buttons[NUM_MOUSE_BUTTONS];
 	iPoint mouse_motion;
 	iPoint mouse;
+	int mouseWheel = 0;
 };

@@ -21,15 +21,32 @@ void UIInspector::Draw(const char* title, bool* p_open) {
 
     if (ImGui::CollapsingHeader("Camera Settings")) {
 
-        //ImGui::DragFloat3("Position", &cameraPosition, 0.2f, 2.0f, 72.0f, "%.0f");
+        ImGui::Text("Transformation");
+        ImGui::SameLine();
+        if (ImGui::Button("Blabla")) {
+            //TODO
+        }
+        ImGui::Separator();
+        ImGui::Text("Movement Settings");
+        ImGui::SameLine();
+        if(ImGui::Button("Reset")){
+            cameraSpeed = 3.0f;
+            angleSpeed = 2.0f;
+            zoomSpeed = 10.0f;
+            nearPlane = 0.1f;
+            farPlane = 30.f;
+            App->camera->ResetVFOV();
+        }
+
         ImGui::DragFloat("Camera Speed", &cameraSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Angle Speed", &angleSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
-        ImGui::DragFloat("Zoom Speed (WIP)", &zoomSpeed, 0.2f, 2.0f, 72.0f, "%.4f");
+        ImGui::DragFloat("Zoom Speed", &zoomSpeed, 0.2f, 5.0f, 15.0f, "%.2f");
         ImGui::Text("Frustum");
         //ImGui::DragFloat3("Front", &cameraPosition, 0.2f, 2.0f, 72.0f, "%.0f");
         //ImGui::DragFloat3("Up", &cameraPosition, 0.2f, 2.0f, 72.0f, "%.0f");
         ImGui::DragFloat("Near Plane", &nearPlane, 0.1f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Far Plane", &farPlane, 1.0f, 10.0f, 200.0f, "%.2f");
+        ImGui::Separator();
     }
 
     if (ImGui::CollapsingHeader("Model Information")) {

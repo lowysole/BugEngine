@@ -18,22 +18,23 @@ public:
 	~ModuleCamera();
 
 	bool Init();
-	bool Start();
-	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
 
-	float4x4 GetProjectionMatrix() const { return projectionGL; };
-	float4x4 GetViewMatrix() const { return viewMatrix; };
+	void UpdateFOV();
+	void UpdateAspectRatio();
 	void FlythroughMode();
 	void RotateCamera(float aX, float aY);
+	void ZoomCamera();
 	void ModifyCameraSpeed();
-	void SetFOV();
-	void SetAspectRatio();
-	void GetUIInformation();
+	void GetUIInformation(); 
+	void SetUIInformation();
 	void CalculateFrameRate();
+	void ResetVFOV() { vFOV = pi / 2; }
 
 	//Getters & Setters
+	float4x4 GetProjectionMatrix() const { return projectionGL; };
+	float4x4 GetViewMatrix() const { return viewMatrix; };
 	int GetMaxFPS() { return fpsMax; };
 	void SetTime(int other) { time = other; };
 	float3 GetPosition() { return cameraPosition; };
@@ -68,7 +69,6 @@ private:
 	int time = 1;
 	int fpsMax;
 
-
 	//Camera
 	Frustum frustum;
 	float4x4 projectionGL;
@@ -79,5 +79,7 @@ private:
 	float angleSpeed;
 	float nearPlane = 0.1f, farPlane = 50.f;
 	float aspectRatio;
+	float vFOV = pi / 2;
+	float zoomSpeed;
 };
 

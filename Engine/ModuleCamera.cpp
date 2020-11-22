@@ -17,8 +17,7 @@ bool ModuleCamera::Init() {
 	clock = Clock();
 	GetUIInformation();
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetViewPlaneDistances(nearPlane, farPlane);
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
+	UpdateFOV();
 	frustum.SetPos(float3(cameraPosition));
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
@@ -28,24 +27,19 @@ bool ModuleCamera::Init() {
 	return true;
 }
 
-update_status ModuleCamera::PreUpdate() {
-	return UPDATE_CONTINUE;
-}
-
 update_status ModuleCamera::Update() 
 {
 	float currentTime = clock.Time();
 	deltaTime = (currentTime - previousTime) / 1000.0;
 	previousTime = currentTime;
 	CalculateFrameRate();
-
 	GetUIInformation();
-	SetAspectRatio();
-	SetFOV();
-	
+	UpdateFOV();
+
 	frustum.SetPos(cameraPosition);
 	ModifyCameraSpeed();
 	FlythroughMode();
+	ZoomCamera();
 
 	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
@@ -58,12 +52,12 @@ update_status ModuleCamera::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleCamera::SetFOV() {
-
-	frustum.SetVerticalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
+void ModuleCamera::UpdateFOV() {
+	UpdateAspectRatio();
+	frustum.SetVerticalFovAndAspectRatio(vFOV, aspectRatio);
 }
 
-void ModuleCamera::SetAspectRatio() {
+void ModuleCamera::UpdateAspectRatio() {
 	aspectRatio = (float)*App->window->GetCurrentWidth() / (float)*App->window->GetCurrentHeight();
 }
 
@@ -73,7 +67,9 @@ void ModuleCamera::FlythroughMode() {
 	float angleShift = deltaTime * angleSpeed;
 	float aX = 0, aY = 0;
 
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT)) {
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && 
+		!App->input->GetKey(SDL_SCANCODE_LALT) && 
+		!App->input->GetKey(SDL_SCANCODE_RALT)) {
 
 		if (App->input->GetKey(SDL_SCANCODE_W)) 
 			cameraPosition = frustum.Front() * shift + cameraPosition;
@@ -135,6 +131,38 @@ void ModuleCamera::RotateCamera(float aX, float aY) {
 	frustum.SetFront(rotationMatrix.RotateAxisAngle(-frustum.WorldRight(), aX) * oldFront);
 }
 
+void ModuleCamera::ZoomCamera(){
+	int wheel = App->input->GetMouseWheel();
+	bool changed = false;
+	if (wheel) {
+
+		if (wheel == 1) vFOV += deltaTime * zoomSpeed;
+		else if (wheel == -1) vFOV -= deltaTime * zoomSpeed;
+		App->input->SetMouseWheelTo0();
+		changed = true;
+	}
+	else if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && App->input->GetKey(SDL_SCANCODE_LALT)) {
+
+		if (App->input->GetMouseMotion().y > 0) {
+			vFOV += deltaTime * zoomSpeed * 0.6;
+		}
+		if (App->input->GetMouseMotion().y < 0) {
+			vFOV -= deltaTime * zoomSpeed * 0.6;
+		}
+		changed = true;
+	}
+	if (changed) {
+		//Limit Zoom from 1º to 179º vFOV Angle (Rad)
+		if (vFOV < 0.6981) {
+			vFOV = 0.6981;
+		}
+		else if (vFOV > 2.4434) {
+			vFOV = 2.4434;
+		}
+		UpdateFOV();
+	}
+}
+
 void ModuleCamera::ModifyCameraSpeed(){
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT)) {
 		cameraSpeed *= 2;
@@ -147,11 +175,13 @@ void ModuleCamera::GetUIInformation() {
 	UIInspector* inspector = App->editor->inspector;
 	cameraSpeed = inspector->GetCameraSpeed();
 	angleSpeed = inspector->GetAngleSpeed();
-	float nPlan = inspector->GetNearPlane();
-	float fPlan = inspector->GetFarPlane();
-	nearPlane = nPlan;
-	farPlane = fPlan;
+	nearPlane = inspector->GetNearPlane();
+	farPlane = inspector->GetFarPlane();
+	zoomSpeed = inspector->GetZoomSpeed();
 	frustum.SetViewPlaneDistances(nearPlane, farPlane);
+}
+
+void ModuleCamera::SetUIInformation(){
 }
 
 float3 ModuleCamera::GetModelPosition(const float4x4& model) const {
@@ -189,7 +219,6 @@ void ModuleCamera::CalculateFrameRate() {
 		}
 		fpsLog[IM_ARRAYSIZE(fpsLog) - 1] = fps;
 	}
-
 }
 
 ModuleCamera::~ModuleCamera(){

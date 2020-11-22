@@ -97,6 +97,19 @@ update_status ModuleInput::PreUpdate() {
 				break;
 			}
 			break;
+
+		case SDL_MOUSEWHEEL:
+			if (event.wheel.y > 0) {
+				mouseWheel = 1;
+			}
+			else if (event.wheel.y < 0) {
+				mouseWheel = -1;
+			}
+			else { 
+				mouseWheel = 0; 
+			}
+			break;
+
 		case SDL_MOUSEBUTTONDOWN:
 			mouse_buttons[event.button.button - 1] = KEY_DOWN;
 			break;
@@ -132,19 +145,4 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
-}
-
-bool ModuleInput::GetWindowEvent(EventWindow ev) const
-{
-	return windowEvents[ev];
-}
-
-const iPoint& ModuleInput::GetMousePosition() const
-{
-	return mouse;
-}
-
-const iPoint& ModuleInput::GetMouseMotion() const
-{
-	return mouse_motion;
 }
