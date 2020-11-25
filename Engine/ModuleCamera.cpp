@@ -5,6 +5,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h" 
 #include "ModuleEditor.h"
+#include "Model.h"
 #include "UIInspector.h"
 
 
@@ -40,6 +41,7 @@ update_status ModuleCamera::Update()
 	ModifyCameraSpeed();
 	FlythroughMode();
 	ZoomCamera();
+	FocusCenterObject();
 
 	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
@@ -163,6 +165,18 @@ void ModuleCamera::ZoomCamera(){
 	}
 }
 
+void ModuleCamera::FocusCenterObject() {
+	if (App->input->GetKey(SDL_SCANCODE_F)) {
+		float4x4 model = App->model->GetMeshes()[0]->GetModelMatrix();
+		float3 position = GetModelPosition(model);
+		float3x3 matrix = {};
+		float3x3 rotationMatrix = matrix.LookAt(frustum.Pos(), position.Normalized(), frustum.Up(), float3::unitY);
+		frustum.SetFront(rotationMatrix.Col(0));
+		frustum.SetUp(rotationMatrix.Col(2));
+	}
+}
+
+
 void ModuleCamera::ModifyCameraSpeed(){
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT)) {
 		cameraSpeed *= 2;
@@ -172,34 +186,22 @@ void ModuleCamera::ModifyCameraSpeed(){
 }
 
 void ModuleCamera::GetUIInformation() {
+	//Transformation
 	UIInspector* inspector = App->editor->inspector;
+	cameraPosition = inspector->GetCameraPosition();
 	cameraSpeed = inspector->GetCameraSpeed();
 	angleSpeed = inspector->GetAngleSpeed();
 	nearPlane = inspector->GetNearPlane();
 	farPlane = inspector->GetFarPlane();
 	zoomSpeed = inspector->GetZoomSpeed();
 	frustum.SetViewPlaneDistances(nearPlane, farPlane);
+	frustum.SetPos(cameraPosition);
 }
 
 void ModuleCamera::SetUIInformation(){
 }
 
-float3 ModuleCamera::GetModelPosition(const float4x4& model) const {
 
-	return float3(model[3][0], model[3][1], model[3][2]);
-}
-
-float3 ModuleCamera::GetModelRotation(const float4x4& model) const {
-
-	return float3(atan2(model[3][2], model[3][3]),
-				  atan2(-model[3][1], sqrt(model[3][2] * model[3][2] + model[3][3] * model[3][3])),
-				  atan2(model[2][1], model[1][1]));
-}
-
-float3 ModuleCamera::GetModelScale(const float4x4& model) const {
-
-	return model.GetScale();
-}
 
 void ModuleCamera::CalculateFrameRate() {
 
@@ -219,6 +221,23 @@ void ModuleCamera::CalculateFrameRate() {
 		}
 		fpsLog[IM_ARRAYSIZE(fpsLog) - 1] = fps;
 	}
+}
+
+float3 ModuleCamera::GetModelPosition(const float4x4& model) const {
+
+	return float3(model[3][0], model[3][1], model[3][2]);
+}
+
+float3 ModuleCamera::GetModelRotation(const float4x4& model) const {
+
+	return float3(atan2(model[3][2], model[3][3]),
+		atan2(-model[3][1], sqrt(model[3][2] * model[3][2] + model[3][3] * model[3][3])),
+		atan2(model[2][1], model[1][1]));
+}
+
+float3 ModuleCamera::GetModelScale(const float4x4& model) const {
+
+	return model.GetScale();
 }
 
 ModuleCamera::~ModuleCamera(){

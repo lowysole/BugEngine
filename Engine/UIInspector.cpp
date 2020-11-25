@@ -24,8 +24,14 @@ void UIInspector::Draw(const char* title, bool* p_open) {
         ImGui::Text("Transformation");
         ImGui::SameLine();
         if (ImGui::Button("Blabla")) {
-            //TODO
+
         }
+        float3 cameraPos = App->camera->GetPosition();
+        cameraPosition[0] = cameraPos.x; 
+        cameraPosition[1] = cameraPos.y;
+        cameraPosition[2] = cameraPos.z;
+        ImGui::DragFloat3("Position", cameraPosition, 0.1f, -inf, +inf, "%.2f");
+        ImGui::DragFloat3("Rotation", cameraRotation, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::Separator();
         ImGui::Text("Movement Settings");
         ImGui::SameLine();
@@ -38,12 +44,16 @@ void UIInspector::Draw(const char* title, bool* p_open) {
             App->camera->ResetVFOV();
         }
 
+        float3 frustumFront = App->camera->GetFrustumFront();
+        float frustumFrontArray[] = {frustumFront.x, frustumFront.y, frustumFront.z};
+        float3 frustumUp = App->camera->GetFrustumUp();
+        float frustumUpArray[] = { frustumUp.x, frustumUp.y, frustumUp.z };
         ImGui::DragFloat("Camera Speed", &cameraSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Angle Speed", &angleSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Zoom Speed", &zoomSpeed, 0.2f, 5.0f, 15.0f, "%.2f");
         ImGui::Text("Frustum");
-        //ImGui::DragFloat3("Front", &cameraPosition, 0.2f, 2.0f, 72.0f, "%.0f");
-        //ImGui::DragFloat3("Up", &cameraPosition, 0.2f, 2.0f, 72.0f, "%.0f");
+        ImGui::InputFloat3("Front", frustumFrontArray);
+        ImGui::InputFloat3("Up", frustumUpArray);
         ImGui::DragFloat("Near Plane", &nearPlane, 0.1f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Far Plane", &farPlane, 1.0f, 10.0f, 200.0f, "%.2f");
         ImGui::Separator();
@@ -87,8 +97,6 @@ void UIInspector::Draw(const char* title, bool* p_open) {
             }
             count++;
         }
-
-    
     }
     ImGui::End();
 

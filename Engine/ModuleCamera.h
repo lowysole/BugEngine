@@ -26,35 +26,30 @@ public:
 	void FlythroughMode();
 	void RotateCamera(float aX, float aY);
 	void ZoomCamera();
+	void FocusCenterObject();
 	void ModifyCameraSpeed();
 	void GetUIInformation(); 
 	void SetUIInformation();
 	void CalculateFrameRate();
 	void ResetVFOV() { vFOV = pi / 2; }
+	void UpdateFrontFrustum(float3 other) { frustum.SetFront(other); };
+	void UpdateUpFrustum(float3 other) { frustum.SetUp(other); };
+
+	float3 GetModelPosition(const float4x4& model) const;
+	float3 GetModelRotation(const float4x4& model) const;
+	float3 GetModelScale(const float4x4& model) const;
 
 	//Getters & Setters
 	float4x4 GetProjectionMatrix() const { return projectionGL; };
 	float4x4 GetViewMatrix() const { return viewMatrix; };
 	int GetMaxFPS() { return fpsMax; };
 	void SetTime(int other) { time = other; };
+	float GetFOV() { return vFOV; };
 	float3 GetPosition() { return cameraPosition; };
 	void SetPosition(float3 other) { cameraPosition = other; };
-	float GetCameraSpeed() { return cameraSpeed; };
-	void SetCameraSpeed(float other) { cameraSpeed = other; };
-	float2 GetOrentation() { return float2(angleX, angleY); };
-	void SetOrentation(float x, float y) { angleX = x; angleY = y; };
-	float GetAngleSpeed() { return angleSpeed; };
-	float SetAngleSpeed(float other) { angleSpeed = other; };
-	float3 GetFrontFrustum() { return frustum.Front(); };
-	void SetFrontFrustum(float3 other) { frustum.SetFront(other); };
-	float3 GetUpFrustum() { return frustum.Up(); };
-	void SetUpFrustum(float3 other) { frustum.SetUp(other); };
-	float2 GetPlaneDistance() { return float2(nearPlane, farPlane); };
-	void SetPlaneDistance(float nearP, float farP) { nearPlane = nearP; farPlane = farP; }
+	float3 GetFrustumUp() { return frustum.Up(); };
+	float3 GetFrustumFront() { return frustum.Front(); };
 
-	float3 GetModelPosition(const float4x4& model) const;
-	float3 GetModelRotation(const float4x4& model) const;
-	float3 GetModelScale(const float4x4& model) const;
 
 	float fpsLog[25] = {};
 
@@ -73,11 +68,12 @@ private:
 	Frustum frustum;
 	float4x4 projectionGL;
 	float4x4 viewMatrix;
-	float3 cameraPosition = float3(0, 1, -2);
+	float3 cameraPosition;
 	float cameraSpeed;
 	float angleX = 0.0f, angleY = 0.0f;
 	float angleSpeed;
-	float nearPlane = 0.1f, farPlane = 50.f;
+	float nearPlane;
+	float farPlane;
 	float aspectRatio;
 	float vFOV = pi / 2;
 	float zoomSpeed;
