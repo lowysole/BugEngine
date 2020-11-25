@@ -13,6 +13,16 @@ UIInspector::UIInspector() {
 
 void UIInspector::Draw(const char* title, bool* p_open) {
 
+    float3 cameraPos = App->camera->GetPosition();
+    cameraPosition[0] = cameraPos.x;
+    cameraPosition[1] = cameraPos.y;
+    cameraPosition[2] = cameraPos.z;
+    float2 cameraRotation = App->camera->GetAnglesRotation() * RADTODEG;
+    cameraPitch = cameraRotation.x;
+    cameraYaw = cameraRotation.y;
+    if (cameraYaw > 180) cameraYaw = cameraYaw - 360;
+    if (cameraYaw < -180) cameraYaw = cameraYaw + 360;
+
     if (!ImGui::Begin(title, p_open))
     {
         ImGui::End();
@@ -22,16 +32,9 @@ void UIInspector::Draw(const char* title, bool* p_open) {
     if (ImGui::CollapsingHeader("Camera Settings")) {
 
         ImGui::Text("Transformation");
-        ImGui::SameLine();
-        if (ImGui::Button("Blabla")) {
-
-        }
-        float3 cameraPos = App->camera->GetPosition();
-        cameraPosition[0] = cameraPos.x; 
-        cameraPosition[1] = cameraPos.y;
-        cameraPosition[2] = cameraPos.z;
         ImGui::DragFloat3("Position", cameraPosition, 0.1f, -inf, +inf, "%.2f");
-        ImGui::DragFloat3("Rotation", cameraRotation, 0.5f, 0.0f, 10.0f, "%.2f");
+        ImGui::DragFloat("Pitch", &cameraPitch, 0.5f, -89.0f, +89.0f, "%.2f");
+        ImGui::DragFloat("Yaw", &cameraYaw, 0.5f, -inf, +inf, "%.2f");
         ImGui::Separator();
         ImGui::Text("Movement Settings");
         ImGui::SameLine();
@@ -44,10 +47,12 @@ void UIInspector::Draw(const char* title, bool* p_open) {
             App->camera->ResetVFOV();
         }
 
+
         float3 frustumFront = App->camera->GetFrustumFront();
         float frustumFrontArray[] = {frustumFront.x, frustumFront.y, frustumFront.z};
         float3 frustumUp = App->camera->GetFrustumUp();
         float frustumUpArray[] = { frustumUp.x, frustumUp.y, frustumUp.z };
+        float vFov = App->camera->GetFOV() * 180/pi;
         ImGui::DragFloat("Camera Speed", &cameraSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Angle Speed", &angleSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Zoom Speed", &zoomSpeed, 0.2f, 5.0f, 15.0f, "%.2f");
@@ -56,8 +61,12 @@ void UIInspector::Draw(const char* title, bool* p_open) {
         ImGui::InputFloat3("Up", frustumUpArray);
         ImGui::DragFloat("Near Plane", &nearPlane, 0.1f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Far Plane", &farPlane, 1.0f, 10.0f, 200.0f, "%.2f");
+        ImGui::InputFloat("vFOV", &vFov, 0.0F, 0.0F, "%.2f");
         ImGui::Separator();
     }
+
+    if(cameraPos.x != cameraPosition[0] && cameraPos.y != cameraPosition[1] && cameraPos.z != cameraPosition[2])
+        App->camera->SetPosition(float3(cameraPosition[0], cameraPosition[1], cameraPosition[2]));
 
     if (ImGui::CollapsingHeader("Model Information")) {
         std::vector<Mesh*> meshes = App->model->GetMeshes();

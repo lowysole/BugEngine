@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "ModuleTexture.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
+#include "UIInspector.h"
 #include "Mesh.h"
 #include "GL/glew.h"
 #include <string>
@@ -121,7 +123,7 @@ void Model::UpdateCameraDistance() {
 	}
 	float3 pos = camera->GetPosition();
 	float dist = radius / sin(fov /2);
-	camera->SetPosition(float3(0, 1, -dist));
+	App->editor->inspector->SetCameraPosition(float3(0, 1, -dist));
 	camera->UpdateFrontFrustum(float3::unitZ);
 	camera->UpdateUpFrustum(float3::unitY);
 }

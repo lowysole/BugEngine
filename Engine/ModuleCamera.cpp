@@ -170,9 +170,9 @@ void ModuleCamera::FocusCenterObject() {
 		float4x4 model = App->model->GetMeshes()[0]->GetModelMatrix();
 		float3 position = GetModelPosition(model);
 		float3x3 matrix = {};
-		float3x3 rotationMatrix = matrix.LookAt(frustum.Pos(), position.Normalized(), frustum.Up(), float3::unitY);
-		frustum.SetFront(rotationMatrix.Col(0));
-		frustum.SetUp(rotationMatrix.Col(2));
+		float3x3 rotationMatrix = matrix.LookAt(frustum.Pos(), position.Normalized(), frustum.Up().Normalized(), float3::unitY);
+		frustum.SetFront(rotationMatrix.Row(0));
+		frustum.SetUp(rotationMatrix.Row(2));
 	}
 }
 
@@ -196,6 +196,10 @@ void ModuleCamera::GetUIInformation() {
 	zoomSpeed = inspector->GetZoomSpeed();
 	frustum.SetViewPlaneDistances(nearPlane, farPlane);
 	frustum.SetPos(cameraPosition);
+	float2 cameraRot = inspector->GetCameraRotation() * DEGTORAD;
+	if (cameraRot.x != angleX || cameraRot.y != angleY) {
+		RotateCamera(cameraRot.x - angleX, cameraRot.y - angleY);
+	}
 }
 
 void ModuleCamera::SetUIInformation(){

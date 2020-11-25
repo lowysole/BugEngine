@@ -6,8 +6,10 @@
 #include "Geometry/Frustum.h"
 #include "MathGeoLib.h"
 #include "Time/Clock.h"
+#include "Math/float2.h"
 
 #define DEGTORAD 0.01745329252f 
+#define RADTODEG 57.295779
 #define EPSILON 0.001f
 
 class ModuleCamera : public Module 
@@ -49,6 +51,7 @@ public:
 	void SetPosition(float3 other) { cameraPosition = other; };
 	float3 GetFrustumUp() { return frustum.Up(); };
 	float3 GetFrustumFront() { return frustum.Front(); };
+	float2 GetAnglesRotation() { return float2(angleX, angleY); };
 
 
 	float fpsLog[25] = {};

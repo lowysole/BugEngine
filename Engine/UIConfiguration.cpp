@@ -68,7 +68,6 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
     }
 
     if (ImGui::CollapsingHeader("Application")) {
-        ImVec2 size = ImGui::GetItemRectSize();
         ImGui::Text("Engine name");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), TITLE);
