@@ -8,8 +8,9 @@ class UIConsole : public UI
 public:
 	UIConsole();
 	void Draw(const char* title, bool* p_open);
-	//void AddLog(const char file[], int line, const char* format, ...);
+	void AddLog(const char file[], ...);
 	void Clear();
+
 
 private:
 	ImGuiTextBuffer     Buf;

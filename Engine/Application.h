@@ -37,8 +37,7 @@ public:
 	ModuleDebugDraw* debug_draw = nullptr;
 	Model* model = nullptr;
 
-
-private:
+//private:
 
 	std::vector<Module*> modules;
 

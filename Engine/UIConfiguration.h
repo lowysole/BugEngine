@@ -1,6 +1,10 @@
 #pragma once
 #include "UI.h"
 
+
+#define MAX_BUFF_EXT 10
+#define MAX_BUFF_FOLDER 100
+
 class UIConfiguration : public UI
 {
 public:
@@ -11,6 +15,8 @@ public:
 	//Getters & Setters
 	void SetMaxWidht(int widht) { maxWidth = widht; };
 	void SetMaxHeight(int height) { maxHeight = height; };
+	void GetTextureFolder(char* other);
+	void GetTextureExt(char* other);
 
 private:
 
@@ -29,5 +35,9 @@ private:
 	int maxWidth = 0;
 	int* windowHeight;
 	int maxHeight = 0;
+
+	//Texture
+	char textureFolder[MAX_BUFF_FOLDER];
+	char textureExt[MAX_BUFF_EXT] = ".png";
 };
 

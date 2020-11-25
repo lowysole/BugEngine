@@ -12,7 +12,9 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	unsigned vertexSize = (sizeof(float) * 3 + sizeof(float) * 2);
 	unsigned bufferSize = vertexSize * mesh->mNumVertices;
 	float* data = new float[bufferSize];
+	float xMax = 0.0f;
 	float yMax = 0.0f;
+	float zMax = 0.0f;
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
 		int j = i * 5;
 		data[j] = mesh->mVertices[i].x;
@@ -21,12 +23,16 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 		data[j+3] = mesh->mTextureCoords[0][i].x;
 		data[j+4] = mesh->mTextureCoords[0][i].y;
 
-		if (data[j + 2] > yMax) yMax = data[j + 2];
+		if (data[j] > abs(xMax)) xMax = abs(data[j]);
+		if (data[j + 1] > abs(yMax)) yMax = abs(data[j + 1]);
+		if (data[j + 2] > abs(zMax)) zMax = abs(data[j + 2]);
 	}
 	glBufferData(GL_ARRAY_BUFFER, bufferSize, data, GL_STATIC_DRAW);
 	delete[] data;
 	numVertices = mesh->mNumVertices;
+	maxX = xMax;
 	maxY = yMax;
+	maxZ = zMax;
 }
 
 void Mesh::LoadEBO(const aiMesh* mesh)

@@ -15,6 +15,7 @@ public:
 	void Load(const char* file_name);
 	void LoadMeshes(const aiScene* scene);
 	void LoadMaterials(const aiScene* scene);
+	void UpdateCameraDistance();
 	bool CleanUp();
 
 	//Getter & Setters
@@ -24,5 +25,6 @@ public:
 private:
 	std::vector<Mesh*> meshes;
 	std::vector<GLuint> materials;
+	const char* fileName;
 };
 

@@ -95,7 +95,6 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         char name[25];
         sprintf_s(name, 25, "Framerate(FPS) %.1f", App->camera->fpsLog[IM_ARRAYSIZE(App->camera->fpsLog) - 1]);
         ImGui::PlotHistogram("##framerate", &App->camera->fpsLog[0], IM_ARRAYSIZE(App->camera->fpsLog), 0, name, 0.0f, App->camera->GetMaxFPS() +50 , ImVec2(300,100));
-        //TODO: Complete
     }
 
     if (ImGui::CollapsingHeader("System")) {
@@ -134,7 +133,33 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::Separator();
 
     }
+    if (ImGui::CollapsingHeader("Texture Configuration")) {
+        ImGui::SameLine(); HelpMarker(
+            "Drag&drop a FBX file into the Engine to load a new texture.\n"
+            "The previous one will be removed.\n"
+            "Steps to find the texture:\n"
+            "1- First check on the path described in the FBX.\n"
+            "2- Check on the same folder you loaded the FBX.\n"
+            "3- Check in the folder described in this field.\n"
+            "If empty, we will take the path of execution.");
+        ImGui::TextWrapped("Default folder");
+        ImGui::InputText("", textureFolder, IM_ARRAYSIZE(textureFolder));
+        ImGui::SameLine(); HelpMarker("Folder from the texture to load. Format C:\\User\\folder");
+        ImGui::TextWrapped("Default extension");
+        ImGui::InputText(" ", textureExt, IM_ARRAYSIZE(textureExt)); 
+        ImGui::SameLine(); HelpMarker("Extension from the texture to load");
+    }
     ImGui::End();
 }
 
+void UIConfiguration::GetTextureFolder(char* other) {
+    for (int i = 0; i < IM_ARRAYSIZE(textureFolder) -1 ; i++) {
+        other[i] = textureFolder[i];
+    }
+}
 
+void UIConfiguration::GetTextureExt(char* other) {
+    for (int i = 0; i < IM_ARRAYSIZE(textureExt) - 1; i++) {
+        other[i] = textureExt[i];
+    }
+}

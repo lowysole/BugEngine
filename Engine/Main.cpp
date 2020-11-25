@@ -18,14 +18,11 @@ enum main_states
 };
 
 Application* App = NULL;
-UIConsole* console = NULL;
 
 int main(int argc, char ** argv)
 {
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
-
-	console = new UIConsole();
 
 	while (state != MAIN_EXIT)
 	{

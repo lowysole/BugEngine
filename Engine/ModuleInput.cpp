@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
+#include "Model.h"
 #include "SDL/include/SDL.h"
 #include "ImGui/imgui_impl_sdl.h"
 
@@ -39,6 +40,7 @@ update_status ModuleInput::PreUpdate() {
 	static SDL_Event event;
 	mouse_motion = { 0, 0 };
 	memset(windowEvents, false, WE_COUNT * sizeof(bool));
+	char* droppedFile;
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 
@@ -98,6 +100,12 @@ update_status ModuleInput::PreUpdate() {
 			}
 			break;
 
+		case SDL_DROPFILE:
+			droppedFile = event.drop.file;
+			CreateNewModel(droppedFile);
+			SDL_free(droppedFile);   
+			break;
+
 		case SDL_MOUSEWHEEL:
 			if (event.wheel.y > 0) {
 				mouseWheel = 1;
@@ -133,13 +141,19 @@ update_status ModuleInput::PreUpdate() {
 	return UPDATE_CONTINUE;
 }
 
-// Called every draw update
 update_status ModuleInput::Update()
 {
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
+// Temporally here
+void ModuleInput::CreateNewModel(char* file) {
+	App->model->CleanUp();
+	App->model->Load(file);
+	std::vector<Module*> modules = App->modules;
+}
+
+
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
