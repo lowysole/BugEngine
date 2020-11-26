@@ -168,7 +168,7 @@ void ModuleCamera::ZoomCamera(){
 }
 
 void ModuleCamera::Orbit() {
-	//if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) && App->input->GetKey(SDL_SCANCODE_LALT)) {
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) && App->input->GetKey(SDL_SCANCODE_LALT)) {
 		float3 up = frustum.Up();
 		float3 front = frustum.Front();
 		float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
@@ -192,20 +192,19 @@ void ModuleCamera::Orbit() {
 		float3x3 rotationPitch = float3x3::RotateAxisAngle(front, aX);
 		float3 newCamPosDirection = focusDirection * rotationPitch * rotationYaw;
 		float3 newCamPos = newCamPosDirection + focusPoint;
-		float3x3 lookAtMatrix;
+		float3x3 rotationMatrix = float3x3::LookAt(front, newCamPosDirection.Normalized(), up, float3::unitY);
+		frustum.SetFront((rotationMatrix * front).Normalized());
+		frustum.SetUp((rotationMatrix * up).Normalized());
 		frustum.SetPos(newCamPos);
-
-	//}
+	}
 }
 
 void ModuleCamera::FocusCenterObject() {
 	if (App->input->GetKey(SDL_SCANCODE_F)) {
+
 		float4x4 model = App->model->GetMeshes()[0]->GetModelMatrix();
 		float3 position = GetModelPosition(model);
-		float3x3 matrix = {};
-		float3x3 rotationMatrix = matrix.LookAt(frustum.Pos(), position.Normalized(), frustum.Up().Normalized(), float3::unitY);
-		frustum.SetFront(rotationMatrix.Row(0));
-		frustum.SetUp(rotationMatrix.Row(2));
+		LookAt(frustum.Pos(),position);
 	}
 }
 
@@ -275,6 +274,15 @@ float3 ModuleCamera::GetModelRotation(const float4x4& model) const {
 float3 ModuleCamera::GetModelScale(const float4x4& model) const {
 
 	return model.GetScale();
+}
+
+void ModuleCamera::LookAt(float3 pos, float3 target) {
+	float3 targetDir = target - pos;
+	float3 oldUp = frustum.Up();
+	float3 oldFront = frustum.Front();
+	float3x3 rotationMatrix = float3x3::LookAt(oldFront, targetDir.Normalized(), oldUp, float3::unitY);
+	frustum.SetFront((rotationMatrix * oldFront).Normalized());
+	frustum.SetUp((rotationMatrix * oldUp).Normalized());
 }
 
 ModuleCamera::~ModuleCamera(){

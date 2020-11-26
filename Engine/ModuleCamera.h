@@ -37,10 +37,10 @@ public:
 	void ResetVFOV() { vFOV = pi / 2; }
 	void UpdateFrontFrustum(float3 other) { frustum.SetFront(other); };
 	void UpdateUpFrustum(float3 other) { frustum.SetUp(other); };
-
 	float3 GetModelPosition(const float4x4& model) const;
 	float3 GetModelRotation(const float4x4& model) const;
 	float3 GetModelScale(const float4x4& model) const;
+	void LookAt(float3 pos, float3 target);
 
 	//Getters & Setters
 	float4x4 GetProjectionMatrix() const { return projectionGL; };
