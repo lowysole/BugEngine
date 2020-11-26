@@ -28,6 +28,7 @@ public:
 	void FlythroughMode();
 	void RotateCamera(float aX, float aY);
 	void ZoomCamera();
+	void Orbit();
 	void FocusCenterObject();
 	void ModifyCameraSpeed();
 	void GetUIInformation(); 

@@ -7,6 +7,7 @@
 #include "ModuleEditor.h"
 #include "Model.h"
 #include "UIInspector.h"
+#include "Math/float3x3.h"
 
 
 ModuleCamera::ModuleCamera() {
@@ -42,6 +43,7 @@ update_status ModuleCamera::Update()
 	FlythroughMode();
 	ZoomCamera();
 	FocusCenterObject();
+	Orbit();
 
 	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
@@ -163,6 +165,37 @@ void ModuleCamera::ZoomCamera(){
 		}
 		UpdateFOV();
 	}
+}
+
+void ModuleCamera::Orbit() {
+	//if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) && App->input->GetKey(SDL_SCANCODE_LALT)) {
+		float3 up = frustum.Up();
+		float3 front = frustum.Front();
+		float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
+		float3 focusDirection = (frustum.Pos() - focusPoint).Normalized();
+		float aX = 0, aY = 0;
+		float shift = deltaTime * cameraSpeed;
+		float angleShift = deltaTime * angleSpeed;
+		if (App->input->GetMouseMotion().y < 0) {
+			aX = -angleShift;
+		}
+		if (App->input->GetMouseMotion().y > 0) {
+			aX = angleShift;
+		}
+		if (App->input->GetMouseMotion().x < 0) {
+			aY = angleShift;
+		}
+		if (App->input->GetMouseMotion().x > 0) {
+			aY = -angleShift;
+		}
+		float3x3 rotationYaw = float3x3::RotateAxisAngle(up, aY);
+		float3x3 rotationPitch = float3x3::RotateAxisAngle(front, aX);
+		float3 newCamPosDirection = focusDirection * rotationPitch * rotationYaw;
+		float3 newCamPos = newCamPosDirection + focusPoint;
+		float3x3 lookAtMatrix;
+		frustum.SetPos(newCamPos);
+
+	//}
 }
 
 void ModuleCamera::FocusCenterObject() {
