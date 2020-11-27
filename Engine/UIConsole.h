@@ -13,10 +13,10 @@ public:
 
 
 private:
-	ImGuiTextBuffer     Buf;
-	ImGuiTextFilter     Filter;
-	ImVector<int>       LineOffsets; // Index to lines offset. We maintain this with AddLog() calls.
-	bool                AutoScroll;
+	ImGuiTextBuffer     buffer;
+	ImGuiTextFilter     filter;
+	ImVector<int>       lineOffsets; // Index to lines offset. We maintain this with AddLog() calls.
+	bool                autoScroll;
 
 };
 

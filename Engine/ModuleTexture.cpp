@@ -24,7 +24,7 @@ GLuint ModuleTexture::LoadTexture(const char* shader_file_name) {
 	ilBindImage(imageId);
 	if (!ilLoadImage(shader_file_name)) {
 
-		LOG("The texture hasn't been loaded corectly");
+		LOG("The texture hasn't been loaded correctly");
 		return false;
 	}
 	ILinfo info;

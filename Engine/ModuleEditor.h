@@ -22,7 +22,6 @@ public:
 	void UIAbout(bool* p_open);
 	void CheckUIWindows();
 
-
 public:
 	//Modules
 	std::vector<UI*> windowsUI;

@@ -14,6 +14,7 @@
 bool Model::Init() {
 
 	Load("BakerHouse.fbx");
+	LOG("BakerHouse loaded correctly.")
 
 
 	return true;
@@ -51,24 +52,24 @@ void Model::LoadMaterials(const aiScene* scene)
 		}
 		if (materials.size() == 0) {
 
-			char defaultFolder[100];
+			char defaultFolder[MAX_BUFF_FOLDER];
 			App->editor->config->GetTextureFolder(defaultFolder);
-			char textureExt[10];
+			char textureExt[MAX_BUFF_EXT];
 			App->editor->config->GetTextureExt(textureExt);
 			std::string s = fileName;
 			std::string path = s.substr(0, s.find(".")) + textureExt;
-			LOG("[INFO] Diffusse texture not found. Checking in the Model folder: %d", path.c_str());
+			LOG("[INFO] Checking in the folder where the model was loaded: %s", path.c_str());
 			GLuint texture = App->texture->LoadTexture(path.c_str());
 			if (texture) {
 				materials.push_back(texture);
 			}
 			else {
-				if (defaultFolder == "") {
+				if (defaultFolder[0] == '\0') {
 					GetCurrentDirectoryA(MAX_BUFF_FOLDER, defaultFolder);
 				}
 				std::string filename = s.substr(s.rfind('\\'), s.length());
 				std::string defaultPath = defaultFolder + filename.substr(0, filename.rfind(".")) + textureExt;
-				LOG("[INFO] Diffusse texture not found. Checking in the Default Texture folder: %d", defaultPath.c_str());
+				LOG("[INFO] Checking in the Default Texture folder: %s", defaultPath.c_str());
 				texture = App->texture->LoadTexture(defaultPath.c_str());
 				if (texture) {
 					materials.push_back(texture);

@@ -140,8 +140,8 @@ void ModuleCamera::ZoomCamera(){
 	bool changed = false;
 	if (wheel) {
 
-		if (wheel == 1) vFOV += deltaTime * zoomSpeed;
-		else if (wheel == -1) vFOV -= deltaTime * zoomSpeed;
+		if (wheel == 1) vFOV -= deltaTime * zoomSpeed;
+		else if (wheel == -1) vFOV += deltaTime * zoomSpeed;
 		App->input->SetMouseWheelTo0();
 		changed = true;
 	}
