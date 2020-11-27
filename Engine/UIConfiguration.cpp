@@ -106,7 +106,8 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         glGetIntegerv(GL_MAJOR_VERSION, &vGlMajor);
         glGetIntegerv(GL_MINOR_VERSION, &vGlMinor);
         int devILv = (int)ilGetInteger(IL_VERSION_NUM);
-        const GLubyte* gpuVersion = glGetString(GL_RENDERER);
+        const char* gpuVendor = (const char*) glGetString(GL_VENDOR);
+        const char* gpuRenderer = (const char*)glGetString(GL_RENDERER);
         ImGui::Text("Software ");
         ImGui::Text("SDL Version: ");
         ImGui::SameLine();
@@ -121,14 +122,17 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::Text("Hardware ");
         ImGui::Text("CPUs: ");
         ImGui::SameLine();
-        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d, (Cache: %d)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize() );
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d, (Cache: %d kb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize() );
         ImGui::Text("System RAM: ");
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%.2d GB", SDL_GetSystemRAM()/1024);
         ImGui::Separator();
-        ImGui::Text("GPU Model: ");
+        ImGui::Text("GPU: ");
         ImGui::SameLine();
-        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), "%d", (const char*)gpuVersion);
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), gpuVendor);
+        ImGui::Text("Brand: ");
+        ImGui::SameLine();
+        ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), gpuRenderer);
         ImGui::Separator();
 
     }
