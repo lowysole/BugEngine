@@ -16,9 +16,6 @@ class ModuleCamera : public Module
 {
 public:
 
-	ModuleCamera();
-	~ModuleCamera();
-
 	bool Init();
 	update_status Update();
 	update_status PostUpdate();
@@ -31,28 +28,27 @@ public:
 	void Orbit();
 	void FocusCenterObject();
 	void ModifyCameraSpeed();
-	void GetUIInformation(); 
-	void SetUIInformation();
+	void GetUIInformation();
 	void CalculateFrameRate();
 	void ResetVFOV() { vFOV = pi / 2; }
-	void UpdateFrontFrustum(float3 other) { frustum.SetFront(other); };
-	void UpdateUpFrustum(float3 other) { frustum.SetUp(other); };
+	void UpdateFrontFrustum(const float3& other) { frustum.SetFront(other); };
+	void UpdateUpFrustum(const float3& other) { frustum.SetUp(other); };
 	float3 GetModelPosition(const float4x4& model) const;
 	float3 GetModelRotation(const float4x4& model) const;
 	float3 GetModelScale(const float4x4& model) const;
-	void LookAt(float3 pos, float3 target);
+	void LookAt(const float3& pos, const float3& target);
 
 	//Getters & Setters
 	float4x4 GetProjectionMatrix() const { return projectionGL; };
 	float4x4 GetViewMatrix() const { return viewMatrix; };
-	int GetMaxFPS() { return fpsMax; };
+	int GetMaxFPS() const { return fpsMax; };
 	void SetTime(int other) { time = other; };
-	float GetFOV() { return vFOV; };
-	float3 GetPosition() { return cameraPosition; };
+	float GetFOV() const { return vFOV; };
+	float3 GetPosition() const { return cameraPosition; };
 	void SetPosition(float3 other) { cameraPosition = other; };
-	float3 GetFrustumUp() { return frustum.Up(); };
-	float3 GetFrustumFront() { return frustum.Front(); };
-	float2 GetAnglesRotation() { return float2(angleX, angleY); };
+	float3 GetFrustumUp() const { return frustum.Up(); };
+	float3 GetFrustumFront() const { return frustum.Front(); };
+	float2 GetAnglesRotation() const { return float2(angleX, angleY); };
 
 
 	float fpsLog[25] = {};

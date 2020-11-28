@@ -10,10 +10,6 @@
 #include "Math/float3x3.h"
 
 
-ModuleCamera::ModuleCamera() {
-
-}
-
 bool ModuleCamera::Init() {
 	
 	clock = Clock();
@@ -39,11 +35,13 @@ update_status ModuleCamera::Update()
 	UpdateFOV();
 
 	frustum.SetPos(cameraPosition);
+
 	ModifyCameraSpeed();
 	FlythroughMode();
 	ZoomCamera();
 	FocusCenterObject();
 	Orbit();
+
 
 	projectionGL = frustum.ProjectionMatrix();
 	viewMatrix = frustum.ViewMatrix();
@@ -239,11 +237,6 @@ void ModuleCamera::GetUIInformation() {
 	}
 }
 
-void ModuleCamera::SetUIInformation(){
-}
-
-
-
 void ModuleCamera::CalculateFrameRate() {
 
 	float currentTime = clock.Time();
@@ -281,15 +274,11 @@ float3 ModuleCamera::GetModelScale(const float4x4& model) const {
 	return model.GetScale();
 }
 
-void ModuleCamera::LookAt(float3 pos, float3 target) {
+void ModuleCamera::LookAt(const float3& pos, const float3& target) {
 	float3 targetDir = target - pos;
 	float3 oldUp = frustum.Up();
 	float3 oldFront = frustum.Front();
 	float3x3 rotationMatrix = float3x3::LookAt(oldFront, targetDir.Normalized(), oldUp, float3::unitY);
 	frustum.SetFront((rotationMatrix * oldFront).Normalized());
 	frustum.SetUp((rotationMatrix * oldUp).Normalized());
-}
-
-ModuleCamera::~ModuleCamera(){
-
 }

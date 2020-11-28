@@ -28,7 +28,8 @@ update_status ModuleRender::PreUpdate() {
 
 	ModuleWindow* window = App->window;
 	SDL_GetWindowSize(window->GetWindow(), window->GetCurrentWidth(), window->GetCurrentHeight());
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	float4 bgColor = App->editor->config->GetBgColor();
+	glClearColor(bgColor.x,  bgColor.y, bgColor.z, bgColor.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
 }
@@ -36,7 +37,7 @@ update_status ModuleRender::PreUpdate() {
 update_status ModuleRender::Update() {
 
 	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
-	dd::xzSquareGrid(-50, 50, 0.0f, 1.0f, dd::colors::Gray);
+	dd::xzSquareGrid(-50, 50, 0.0f, 1.0f, App->editor->config->GetGridColor());
 	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), *App->window->GetCurrentWidth(), *App->window->GetCurrentHeight());
 
 	unsigned program_id = App->program->GetProgramId();

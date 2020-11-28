@@ -23,6 +23,7 @@ bool ModuleEditor::Init() {
 
 
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	ImGui::GetIO().WantCaptureKeyboard = true;
 
 	return true;
 }
@@ -40,7 +41,7 @@ update_status ModuleEditor::Update() {
 
 	CheckUIWindows();
 	UIMainMenuBar();
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -85,9 +86,9 @@ void ModuleEditor::UIMainMenuBar() {
 void ModuleEditor::UIAbout(bool* p_open) {
 
 	ImGui::Begin("About", &showUIAbout);
-	ImGui::TextWrapped(TITLE " v1.0" );
+	ImGui::TextColored(ImVec4(0.35f, 0.69f, 0.87f, 1.0f), TITLE " v1.0" );
 	ImGui::Separator();
-	ImGui::Text(u8"By Llorenç (Lowy) Solé.");
+	ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), u8"By Llorenç (Lowy) Solé.");
 	ImGui::TextWrapped("Engine developed during the Master in Advanced Programming for AAA Video Games by UPC.");
 	ImGui::TextWrapped("Bug Engine licensed under the MIT License.");
 	ImGui::Separator();
@@ -119,4 +120,9 @@ void ModuleEditor::CheckUIWindows() {
 	if (showUIInspector)		inspector->Draw("Inspector", &showUIInspector);
 	if (showUIConfig)			config->Draw("Configuration", &showUIConfig);
 
+}
+
+bool ModuleEditor::CheckUIInputs() {
+	ImGuiIO& io = ImGui::GetIO();
+	return io.WantCaptureMouse || io.WantCaptureKeyboard;
 }

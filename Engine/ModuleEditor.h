@@ -21,6 +21,7 @@ public:
 	void UIMainMenuBar();
 	void UIAbout(bool* p_open);
 	void CheckUIWindows();
+	bool CheckUIInputs();
 
 public:
 	//Modules

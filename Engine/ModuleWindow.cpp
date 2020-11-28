@@ -49,7 +49,7 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(TITLE, 0, 0, *currentWidth, *currentHeight, flags);
+		window = SDL_CreateWindow(TITLE, 0, 0, *currentWidth * 0.8, *currentHeight * 0.8, flags);
 
 		if(window == NULL) {
 
