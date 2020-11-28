@@ -156,7 +156,7 @@ void ModuleCamera::ZoomCamera(){
 		changed = true;
 	}
 	if (changed) {
-		//Limit Zoom from 1º to 179º vFOV Angle (Rad)
+		//Limit Zoom from 40º to 140º vFOV Angle (Rad)
 		if (vFOV < 0.6981) {
 			vFOV = 0.6981;
 		}
@@ -169,33 +169,38 @@ void ModuleCamera::ZoomCamera(){
 
 void ModuleCamera::Orbit() {
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) && App->input->GetKey(SDL_SCANCODE_LALT)) {
-		float3 up = frustum.Up();
-		float3 front = frustum.Front();
-		float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
-		float3 focusDirection = (frustum.Pos() - focusPoint).Normalized();
-		float aX = 0, aY = 0;
-		float shift = deltaTime * cameraSpeed;
-		float angleShift = deltaTime * angleSpeed;
-		if (App->input->GetMouseMotion().y < 0) {
-			aX = -angleShift;
-		}
-		if (App->input->GetMouseMotion().y > 0) {
-			aX = angleShift;
-		}
-		if (App->input->GetMouseMotion().x < 0) {
-			aY = angleShift;
-		}
-		if (App->input->GetMouseMotion().x > 0) {
-			aY = -angleShift;
-		}
-		float3x3 rotationYaw = float3x3::RotateAxisAngle(up, aY);
-		float3x3 rotationPitch = float3x3::RotateAxisAngle(front, aX);
-		float3 newCamPosDirection = focusDirection * rotationPitch * rotationYaw;
-		float3 newCamPos = newCamPosDirection + focusPoint;
-		float3x3 rotationMatrix = float3x3::LookAt(front, newCamPosDirection.Normalized(), up, float3::unitY);
-		frustum.SetFront((rotationMatrix * front).Normalized());
-		frustum.SetUp((rotationMatrix * up).Normalized());
-		frustum.SetPos(newCamPos);
+
+	float3 up = float3::unitY;
+	float3 front = frustum.Front();
+	float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
+	float3 focusDirection = (frustum.Pos() - focusPoint);
+	float aX = 0, aY = 0;
+	float angleShift = deltaTime * angleSpeed;
+	if (App->input->GetMouseMotion().y < 0) {
+		aX = -angleShift;
+	}
+	if (App->input->GetMouseMotion().y > 0) {
+		aX = angleShift;
+	}
+	if (App->input->GetMouseMotion().x < 0) {
+		aY = angleShift;
+	}
+	if (App->input->GetMouseMotion().x > 0) {
+		aY = -angleShift;
+	}
+	angleX += aX;
+	angleY += aY;
+	float3x3 rotationYaw = float3x3::RotateAxisAngle(up, angleY);
+	float3x3 rotationPitch = float3x3::RotateAxisAngle(front, angleX);
+	float3 newCamPosDirection = (focusDirection * rotationPitch) * rotationYaw ;
+	float3 newCamPos = newCamPosDirection + focusPoint;
+	//float3x3 rotationMatrix = float3x3::LookAt(front, newCamPosDirection, up, float3::unitY);
+	frustum.SetPos(newCamPos);
+	LookAt(newCamPos, focusPoint);
+	//frustum.SetFront((rotationMatrix * front).Normalized());
+	//frustum.SetUp((rotationMatrix * up).Normalized());
+
+
 	}
 }
 

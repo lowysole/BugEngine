@@ -6,7 +6,6 @@
 class UIInspector  : public UI
 {
 public:
-	UIInspector();
 	void Draw(const char* title, bool* p_open);
 
 	//Camera
@@ -31,5 +30,8 @@ private:
 	float angleSpeed = 2.0f;
 	float zoomSpeed = 10.0f;
 	float nearPlane = 0.1f, farPlane = 30.f;
+
+	//Texture
+	const char* path;
 };
 

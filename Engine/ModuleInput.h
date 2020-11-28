@@ -36,7 +36,6 @@ public:
 	bool Init();
 	update_status PreUpdate();
 	update_status Update();
-	void CreateNewModel(char* file);
 	bool CleanUp();
 
 

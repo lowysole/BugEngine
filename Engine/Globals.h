@@ -15,7 +15,6 @@ enum update_status
 
 // Configuration -----------
 #define SCREEN_SIZE 2
-#define VSYNC true
 #define TITLE "BUG Engine"
 
 // Deletes a buffer

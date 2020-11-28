@@ -7,11 +7,10 @@
 #include <math.h>
 #include <vector>
 
-UIInspector::UIInspector() {
-
-}
-
 void UIInspector::Draw(const char* title, bool* p_open) {
+
+    // TODO: Create file with common UI features 
+    ImVec4 color = ImVec4(0.35f, 0.69f, 0.87f, 1.0f);
 
     float3 cameraPos = App->camera->GetPosition();
     cameraPosition[0] = cameraPos.x;
@@ -31,12 +30,12 @@ void UIInspector::Draw(const char* title, bool* p_open) {
 
     if (ImGui::CollapsingHeader("Camera Settings")) {
 
-        ImGui::Text("Transformation");
+        ImGui::TextColored(color, "Transformation");
         ImGui::DragFloat3("Position", cameraPosition, 0.1f, -inf, +inf, "%.2f");
         ImGui::DragFloat("Pitch", &cameraPitch, 0.5f, -89.0f, +89.0f, "%.2f");
         ImGui::DragFloat("Yaw", &cameraYaw, 0.5f, -inf, +inf, "%.2f");
         ImGui::Separator();
-        ImGui::Text("Movement Settings");
+        ImGui::TextColored(color, "Movement Settings");
         ImGui::SameLine();
         if(ImGui::Button("Reset")){
             cameraSpeed = 3.0f;
@@ -56,7 +55,7 @@ void UIInspector::Draw(const char* title, bool* p_open) {
         ImGui::DragFloat("Camera Speed", &cameraSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Angle Speed", &angleSpeed, 0.5f, 0.0f, 10.0f, "%.2f");
         ImGui::DragFloat("Zoom Speed", &zoomSpeed, 0.2f, 5.0f, 15.0f, "%.2f");
-        ImGui::Text("Frustum");
+        ImGui::TextColored(color, "Frustum");
         ImGui::InputFloat3("Front", frustumFrontArray);
         ImGui::InputFloat3("Up", frustumUpArray);
         ImGui::DragFloat("Near Plane", &nearPlane, 0.1f, 0.0f, 10.0f, "%.2f");
@@ -90,16 +89,22 @@ void UIInspector::Draw(const char* title, bool* p_open) {
 
             if (ImGui::TreeNode(name)) {
 
-                ImGui::TextWrapped("Transformation (X,Y,Z)");
+                ImGui::TextColored(color, "Transformation (X,Y,Z)");
                 ImGui::InputFloat3("Position", pos);
                 ImGui::InputFloat3("Scale", scale);
                 ImGui::InputFloat3("Rotation", rotation);
                 ImGui::Separator();
-                ImGui::TextWrapped("Geometry");
-                ImGui::LabelText("Num Vertices", nVertices);
-                ImGui::LabelText("Num Triangles", nFaces);
+                ImGui::TextColored(color, "Geometry");
+                ImGui::TextWrapped("Num Vertices:   %d", nVertices);
+                ImGui::TextWrapped("Num Triangles:   %d", nFaces);
                 ImGui::Separator();
-                ImGui::TextWrapped("Texture:");
+                ImGui::TextColored(color, "Texture");
+                ImGui::TextWrapped("Path: ");
+                ImGui::SameLine();
+                ImGui::TextWrapped(App->model->GetTexturePath().c_str());
+                ImGui::TextWrapped("Size: ");
+                ImGui::SameLine();
+                ImGui::TextWrapped("%d x %d", App->model->GetTextureWidth(), App->model->GetTextureHeight());
                 ImGui::Image((void*)App->model->GetMaterials()[(*it)->GetMaterialIndex()], ImVec2(200,200));
                 ImGui::Separator();
                 ImGui::TreePop();

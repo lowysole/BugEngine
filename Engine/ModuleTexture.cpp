@@ -1,13 +1,16 @@
 #include "ModuleTexture.h"
 #include "Application.h"
+#include "Model.h"
 #include "IL/il.h"
 #include "GL/glew.h"
+#include "Math/float2.h"
+
 
 bool ModuleTexture::Init() {
 
 	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
 	{
-		LOG("Incorrect IL version installed");
+		LOG("Incorrect IL version installed\n");
 		return false;
 	}
 	ilInit();
@@ -24,11 +27,13 @@ GLuint ModuleTexture::LoadTexture(const char* shader_file_name) {
 	ilBindImage(imageId);
 	if (!ilLoadImage(shader_file_name)) {
 
-		LOG("The texture hasn't been loaded correctly");
+		LOG("The texture hasn't been loaded correctly\n");
+		App->model->SetTextureSize(0, 0);
 		return false;
 	}
 	ILinfo info;
 	iluGetImageInfo(&info);
+	App->model->SetTextureSize(info.Width, info.Height);
 
 	glGenTextures(1, &image);
 	glBindTexture(GL_TEXTURE_2D, image);

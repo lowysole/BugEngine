@@ -7,21 +7,36 @@
 #include "UIInspector.h"
 #include "Mesh.h"
 #include "GL/glew.h"
-#include <string>
-#include <iostream>
 
+void myCallback(const char* msg, char* userData) {
+	LOG(msg);
+}
 
 bool Model::Init() {
 
 	Load("BakerHouse.fbx");
-	LOG("BakerHouse loaded correctly.")
-
-
+	struct aiLogStream stream;
+	stream.callback = myCallback;
+	aiAttachLogStream(&stream);
 	return true;
+
 }
 
 void Model::Load(const char* file) {
+	std::string s = file;
+	if (s.substr(s.rfind('.'), s.length()) == ".fbx") {
 
+		CleanUp();
+		LoadScene(file);
+	}
+	else {
+		CleanMaterials();
+		texturePath = file;
+		LoadExternalMaterial();
+	}
+}
+
+void Model::LoadScene(const char* file) {
 	fileName = file;
 	const aiScene* scene = aiImportFile(file, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
@@ -31,7 +46,7 @@ void Model::Load(const char* file) {
 	}
 	else
 	{
-		LOG("Error loading %s: %s", file, aiGetErrorString());
+		LOG("Error loading %s: %s\n", file, aiGetErrorString());
 	}
 	UpdateCameraDistance();
 }
@@ -44,42 +59,66 @@ void Model::LoadMaterials(const aiScene* scene)
 		{
 			if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 			{
+				texturePath = file.data;
 				GLuint texture = App->texture->LoadTexture(file.data);
 				if (texture) {
 					materials.push_back(texture);
+					LOG("[INFO] Texture loaded correctly\n");
 				}
 			}
 		}
 		if (materials.size() == 0) {
 
-			char defaultFolder[MAX_BUFF_FOLDER];
-			App->editor->config->GetTextureFolder(defaultFolder);
-			char textureExt[MAX_BUFF_EXT];
-			App->editor->config->GetTextureExt(textureExt);
-			std::string s = fileName;
-			std::string path = s.substr(0, s.find(".")) + textureExt;
-			LOG("[INFO] Checking in the folder where the model was loaded: %s", path.c_str());
-			GLuint texture = App->texture->LoadTexture(path.c_str());
-			if (texture) {
-				materials.push_back(texture);
-			}
-			else {
-				if (defaultFolder[0] == '\0') {
-					GetCurrentDirectoryA(MAX_BUFF_FOLDER, defaultFolder);
-				}
-				std::string filename = s.substr(s.rfind('\\'), s.length());
-				std::string defaultPath = defaultFolder + filename.substr(0, filename.rfind(".")) + textureExt;
-				LOG("[INFO] Checking in the Default Texture folder: %s", defaultPath.c_str());
-				texture = App->texture->LoadTexture(defaultPath.c_str());
-				if (texture) {
-					materials.push_back(texture);
-				}
-				else {
-					LOG("[WARNING] Impossible to Load a Texture for this model.");
-					materials.push_back(0);
-				}
-			}
+			LoadMaterialFromModelPath();
 		}
+}
+
+void Model::LoadMaterialFromModelPath() {
+
+	char defaultFolder[MAX_BUFF_FOLDER];
+	char textureExt[MAX_BUFF_EXT];
+	App->editor->config->GetTextureFolder(defaultFolder);
+	App->editor->config->GetTextureExt(textureExt);
+	texturePath = fileName.substr(0, fileName.find(".")) + textureExt;
+	LOG("[INFO] Checking in the folder where the model was loaded: %s\n", texturePath.c_str());
+	GLuint texture = App->texture->LoadTexture(texturePath.c_str());
+	if (texture) {
+		materials.push_back(texture);
+		LOG("[INFO] Texture loaded correctly\n");
+	}
+	else {
+		if (defaultFolder[0] == '\0') {
+			GetCurrentDirectoryA(MAX_BUFF_FOLDER, defaultFolder);
+		}
+		std::string filename = fileName.substr(fileName.rfind('\\'), fileName.length());
+		texturePath = defaultFolder + filename.substr(0, filename.rfind(".")) + textureExt;
+		LOG("[INFO] Checking in the Default Texture folder: %s\n", texturePath.c_str());
+		GLuint texture = App->texture->LoadTexture(texturePath.c_str());
+		if (texture) {
+			materials.push_back(texture);
+			LOG("[INFO] Texture loaded correctly\n");
+		}
+		else {
+			LOG("[WARNING] Impossible to Load a Texture for this model.\n");
+			materials.push_back(0);
+			texturePath = "";
+		}
+	}
+}
+
+void Model::LoadExternalMaterial() {
+
+	GLuint texture = App->texture->LoadTexture(texturePath.c_str());
+	if (texture) {
+		materials.push_back(texture);
+		LOG("[INFO] Texture loaded correctly\n");
+	}
+	else {
+		LOG("[WARNING] Impossible to Load this Texture.\n");
+		materials.push_back(0);
+		texturePath = "";
+	}
+
 }
 
 void Model::LoadMeshes(const aiScene* scene)
@@ -129,14 +168,21 @@ void Model::UpdateCameraDistance() {
 	camera->UpdateUpFrustum(float3::unitY);
 }
 
-bool Model::CleanUp() {
+void Model::CleanMeshes(){
+	meshes.clear();
+}
+
+void Model::CleanMaterials() {
 	for (std::vector<GLuint>::iterator it = materials.begin(); it != materials.end(); it++) {
 
 		App->texture->DeleteTexture(*it);
 	}
-
-	meshes.clear();
 	materials.clear();
+}
+
+bool Model::CleanUp() {
+	CleanMeshes();
+	CleanMaterials();
 
 	return true;
 }

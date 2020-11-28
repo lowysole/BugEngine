@@ -7,7 +7,7 @@
 
 bool ModuleWindow::Init()
 {
-	LOG("Init SDL window & surface");
+	LOG("Init SDL window & surface\n");
 	bool ret = true;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -21,7 +21,7 @@ bool ModuleWindow::Init()
 
 		if (SDL_GetDesktopDisplayMode(0, &dm) != 0) {
 
-			SDL_Log("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+			SDL_Log("SDL_GetDesktopDisplayMode failed: %s\n", SDL_GetError());
 			return 1;
 		}
 
@@ -101,7 +101,7 @@ void ModuleWindow::SetBrightness(int value) {
 
 bool ModuleWindow::CleanUp()
 {
-	LOG("Destroying SDL window and quitting all SDL systems");
+	LOG("Destroying SDL window and quitting all SDL systems\n");
 
 	//Destroy window
 	if (window != NULL)

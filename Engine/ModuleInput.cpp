@@ -23,7 +23,7 @@ ModuleInput::~ModuleInput()
 // Called before render is available
 bool ModuleInput::Init()
 {
-	LOG("Init SDL input event system");
+	LOG("Init SDL input event system\n");
 	bool ret = true;
 	SDL_Init(0);
 
@@ -102,7 +102,7 @@ update_status ModuleInput::PreUpdate() {
 
 		case SDL_DROPFILE:
 			droppedFile = event.drop.file;
-			CreateNewModel(droppedFile);
+			App->model->Load(droppedFile);
 			SDL_free(droppedFile);   
 			break;
 
@@ -146,17 +146,9 @@ update_status ModuleInput::Update()
 	return UPDATE_CONTINUE;
 }
 
-// Temporally here
-void ModuleInput::CreateNewModel(char* file) {
-	App->model->CleanUp();
-	App->model->Load(file);
-	std::vector<Module*> modules = App->modules;
-}
-
-
 bool ModuleInput::CleanUp()
 {
-	LOG("Quitting SDL input event subsystem");
+	LOG("Quitting SDL input event subsystem\n");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
