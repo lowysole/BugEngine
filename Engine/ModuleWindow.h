@@ -21,16 +21,16 @@ public:
 
 	//Getters & Setters
 	SDL_Window* GetWindow() { return window; };
-	int* GetCurrentWidth() { return currentWidth; };
-	void SetCurrentWidth(int* other) { currentWidth = other;  };
-	int* GetCurrentHeight() { return currentHeight; };
-	void SetCurrentHeight(int* other) { currentHeight = other; };
+	int GetCurrentWidth() { return currentWidth; };
+	void SetCurrentWidth(int other) { currentWidth = other;  };
+	int GetCurrentHeight() { return currentHeight; };
+	void SetCurrentHeight(int other) { currentHeight = other; };
 
 private:
 
 	SDL_Window* window = NULL;
-	int* currentWidth;
-	int* currentHeight;
+	int currentWidth;
+	int currentHeight;
 	SDL_Surface* screen_surface = NULL;
 	bool fullscreen = false;
 	bool resizable = true;

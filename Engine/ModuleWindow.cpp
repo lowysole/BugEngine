@@ -25,10 +25,10 @@ bool ModuleWindow::Init()
 			return 1;
 		}
 
-		currentWidth = &dm.w;
-		currentHeight = &dm.h;
-		App->editor->config->SetMaxWidht(*currentWidth);
-		App->editor->config->SetMaxHeight(*currentHeight);
+		currentWidth = dm.w;
+		currentHeight = dm.h;
+		App->editor->config->SetMaxWidht(currentWidth);
+		App->editor->config->SetMaxHeight(currentHeight);
 
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
 
@@ -49,7 +49,7 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(TITLE, 0, 0, *currentWidth * 0.8, *currentHeight * 0.8, flags);
+		window = SDL_CreateWindow(TITLE, 0, 0, currentWidth * 0.8, currentHeight * 0.8, flags);
 
 		if(window == NULL) {
 

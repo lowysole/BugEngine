@@ -98,13 +98,13 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         if (ImGui::SliderInt("Brightness", &brightness, 0, 100)) {
             App->window->SetBrightness(brightness);
         }
-        if (resizable) {
+        if (resizable && !borderless) {
             windowWidth = App->window->GetCurrentWidth();
             windowHeight = App->window->GetCurrentHeight();
-            if (ImGui::SliderInt("Width", windowWidth, 800, maxWidth) ||
-                ImGui::SliderInt("Heigth", windowHeight, 600, maxHeight)) {
+            if (ImGui::SliderInt("Width", &windowWidth, 800, maxWidth) ||
+                ImGui::SliderInt("Heigth", &windowHeight, 600, maxHeight)) {
 
-                SDL_SetWindowSize(App->window->GetWindow(), *windowWidth, *windowHeight);
+                SDL_SetWindowSize(App->window->GetWindow(), windowWidth, windowHeight);
             }
         }
 
@@ -116,13 +116,12 @@ void UIConfiguration::Draw(const char* title, bool* p_open) {
         ImGui::SameLine();
 
         if (!borderless) {
-
+      
             if (ImGui::Checkbox("Resizable", &resizable)) {
                 App->window->SetResizable(resizable);
             }
         }
         else {
-
             ImGui::TextDisabled("No resizable");
             ImGui::SameLine(); HelpMarker("Option disabled when Borderless activated.");
         }

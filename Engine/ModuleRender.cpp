@@ -25,9 +25,11 @@ bool ModuleRender::Init() {
 }
 
 update_status ModuleRender::PreUpdate() {
-
-	ModuleWindow* window = App->window;
-	SDL_GetWindowSize(window->GetWindow(), window->GetCurrentWidth(), window->GetCurrentHeight());
+	int w = App->window->GetCurrentWidth();
+	int h = App->window->GetCurrentHeight();
+	SDL_GetWindowSize(App->window->GetWindow(), &w, &h);
+	App->window->SetCurrentWidth(w);
+	App->window->SetCurrentHeight(h);
 	float4 bgColor = App->editor->config->GetBgColor();
 	glClearColor(bgColor.x,  bgColor.y, bgColor.z, bgColor.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -38,7 +40,7 @@ update_status ModuleRender::Update() {
 
 	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
 	dd::xzSquareGrid(-50, 50, 0.0f, 1.0f, App->editor->config->GetGridColor());
-	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), *App->window->GetCurrentWidth(), *App->window->GetCurrentHeight());
+	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), App->window->GetCurrentWidth(), App->window->GetCurrentHeight());
 
 	unsigned program_id = App->program->GetProgramId();
 

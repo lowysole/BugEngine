@@ -60,7 +60,7 @@ void ModuleCamera::UpdateFOV() {
 }
 
 void ModuleCamera::UpdateAspectRatio() {
-	aspectRatio = (float)*App->window->GetCurrentWidth() / (float)*App->window->GetCurrentHeight();
+	aspectRatio = (float)App->window->GetCurrentWidth() / (float)App->window->GetCurrentHeight();
 }
 
 void ModuleCamera::FlythroughMode() {

@@ -34,7 +34,7 @@ update_status ModuleEditor::Update() {
 		return UPDATE_STOP;
 	}
 
-	glViewport(0, 0, *App->window->GetCurrentWidth(), *App->window->GetCurrentHeight());
+	glViewport(0, 0, App->window->GetCurrentWidth(), App->window->GetCurrentHeight());
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->GetWindow());
 	ImGui::NewFrame();

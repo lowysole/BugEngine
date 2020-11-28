@@ -42,9 +42,9 @@ private:
 	bool borderless = false;
 	bool fullDesktop = true;
 	int brightness = 100;
-	int* windowWidth;
+	int windowWidth;
 	int maxWidth = 0;
-	int* windowHeight;
+	int windowHeight;
 	int maxHeight = 0;
 
 	//Texture
@@ -59,12 +59,12 @@ private:
 								"GL_LINEAR_MIPMAP_NEAREST",
 								"GL_NEAREST_MIPMAP_LINEAR",
 								"GL_LINEAR_MIPMAP_LINEAR" };
-	int magMinmapCurrent = 4;
+	int magMinmapCurrent = 3;
 	const char* minMinmap[4] = { "GL_NEAREST_MIPMAP_NEAREST",
 							     "GL_LINEAR_MIPMAP_NEAREST",
 							     "GL_NEAREST_MIPMAP_LINEAR",
 							     "GL_LINEAR_MIPMAP_LINEAR" };
-	int minMinmapCurrent = 4;
+	int minMinmapCurrent = 3;
 	const char* wrap[4] = { "GL_REPEAT",
 						   "GL_CLAMP",
 						   "GL_CLAMP_TO_BORDER",
