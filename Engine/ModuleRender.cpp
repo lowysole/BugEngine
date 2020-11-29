@@ -10,6 +10,7 @@
 #include "SDL.h"
 #include "Geometry/Frustum.h"
 #include "debugdraw.h" 
+#include "leak.h"
 
 bool ModuleRender::Init() {
 
@@ -40,9 +41,12 @@ update_status ModuleRender::Update() {
 
 	dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
 	dd::xzSquareGrid(-50, 50, 0.0f, 1.0f, App->editor->config->GetGridColor());
-	App->debug_draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjectionMatrix(), App->window->GetCurrentWidth(), App->window->GetCurrentHeight());
+	App->debug_draw->Draw(App->camera->GetViewMatrix(),
+		App->camera->GetProjectionMatrix(),
+		App->window->GetCurrentWidth(),
+		App->window->GetCurrentHeight());
 
-	unsigned program_id = App->program->GetProgramId();
+	unsigned programId = App->program->GetProgramId();
 
 	return UPDATE_CONTINUE;
 }

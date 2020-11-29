@@ -6,7 +6,7 @@
 #include "IL/il.h"
 #include "GL/glew.h"
 #include "Math/float2.h"
-
+#include "leak.h"
 
 bool ModuleTexture::Init() {
 
@@ -43,7 +43,7 @@ GLuint ModuleTexture::LoadTexture(const char* shader_file_name) {
 	return image;
 }
 
-void ModuleTexture::ApplyFilters(GLuint image) {
+void ModuleTexture::ApplyFilters(const GLuint image) {
 
 	//TODO: Optimize this function
 	bool minmap = false;
@@ -115,7 +115,7 @@ void ModuleTexture::ApplyFilters(GLuint image) {
 }
 
 
-bool ModuleTexture::DeleteTexture(GLuint& image) {
+bool ModuleTexture::DeleteTexture(const GLuint& image) {
 
 	glDeleteTextures(1, &image);
 	return true;

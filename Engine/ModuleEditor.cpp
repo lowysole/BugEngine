@@ -6,7 +6,7 @@
 #include "ImGui/imgui_impl_opengl3.h"
 #include "SDL/include/SDL.h"
 #include "GL/glew.h"
-
+#include "leak.h"
 
 ModuleEditor::ModuleEditor() {
 	windowsUI.reserve(3);
@@ -15,15 +15,19 @@ ModuleEditor::ModuleEditor() {
 	windowsUI.push_back(console = new UIConsole());
 }
 
+ModuleEditor::~ModuleEditor() {
+	for (std::vector<UI*>::iterator it = windowsUI.begin(); it != windowsUI.end(); it++) {
+		RELEASE(*it);
+	}
+	windowsUI.clear();
+}
+
 bool ModuleEditor::Init() {
 
 	ImGui::CreateContext();
 	ImGui_ImplSDL2_InitForOpenGL(App->window->GetWindow(), App->renderer->GetContext());
 	ImGui_ImplOpenGL3_Init();
-
-
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	ImGui::GetIO().WantCaptureKeyboard = true;
 
 	return true;
 }
@@ -41,7 +45,6 @@ update_status ModuleEditor::Update() {
 
 	CheckUIWindows();
 	UIMainMenuBar();
-	//ImGui::ShowDemoWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -54,7 +57,6 @@ bool ModuleEditor::CleanUp() {
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-	//delete &modules;
 	return true;
 }
 
@@ -109,8 +111,7 @@ void ModuleEditor::UIAbout(bool* p_open) {
 
 		ImGui::EndChildFrame();
 	}
-	ImGui::End();
-	
+	ImGui::End();	
 }
 
 void ModuleEditor::CheckUIWindows() {
@@ -119,7 +120,6 @@ void ModuleEditor::CheckUIWindows() {
 	if (showUIConsole)			console->Draw("Console", &showUIConsole);
 	if (showUIInspector)		inspector->Draw("Inspector", &showUIInspector);
 	if (showUIConfig)			config->Draw("Configuration", &showUIConfig);
-
 }
 
 bool ModuleEditor::CheckUIInputs() {

@@ -50,7 +50,7 @@ public:
 
 private:
 	bool windowEvents[WE_COUNT];
-	KeyState* keyboard;
+	KeyState* keyboard = nullptr;
 	KeyState mouse_buttons[NUM_MOUSE_BUTTONS];
 	iPoint mouse_motion;
 	iPoint mouse;

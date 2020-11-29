@@ -7,7 +7,7 @@
 #include "GL/glew.h"
 #include "IL/il.h"
 #include "imgui.h"
-
+#include "leak.h"
 
 void UIConfiguration::Draw(const char* title, bool* p_open) {
 

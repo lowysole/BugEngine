@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "leak.h"
 
 void Mesh::LoadVBO(const aiMesh* mesh)
 {

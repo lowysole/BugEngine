@@ -3,7 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
 #include "UIConfiguration.h"
-
+#include "leak.h"
 
 bool ModuleWindow::Init()
 {

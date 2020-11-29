@@ -12,6 +12,9 @@
 class Model: public Module
 {
 public:
+
+	~Model();
+
 	bool Init();
 	update_status Update();
 	void Load(const char* file_name);
@@ -26,11 +29,11 @@ public:
 	bool CleanUp();
 
 	//Getter & Setters
-	std::vector<Mesh*> GetMeshes() { return meshes; };
-	std::vector<GLuint> GetMaterials() { return materials; };
-	std::string GetTexturePath() { return texturePath; };
-	int GetTextureWidth() { return textureSize[0]; };
-	int GetTextureHeight() { return textureSize[1]; };
+	std::vector<Mesh*> GetMeshes() const { return meshes; };
+	std::vector<GLuint> GetMaterials() const{ return materials; };
+	std::string GetTexturePath() const { return texturePath; };
+	int GetTextureWidth() const { return textureSize[0]; };
+	int GetTextureHeight() const { return textureSize[1]; };
 	void SetTextureSize(int w, int h) { textureSize[0] = w, textureSize[1] = h; };
 
 private:

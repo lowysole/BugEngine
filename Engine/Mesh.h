@@ -19,7 +19,7 @@ public:
 	unsigned GetNumFaces() const { return numFaces; };
 	unsigned GetMaterialIndex() const { return materialIndex; };
 	const float4x4 GetModelMatrix() const { return model; };
-	float3 GetMaxDistance() { return float3(maxX, maxY, maxZ); };
+	float3 GetMaxDistance() const { return float3(maxX, maxY, maxZ); };
 
 
 private:
@@ -31,8 +31,8 @@ private:
 	unsigned numFaces;
 	unsigned materialIndex;
 	float4x4 model;
-	float maxX;
-	float maxY;
-	float maxZ;
+	float maxX = 0.0f;
+	float maxY = 0.0f;
+	float maxZ = 0.0f;
 };
 

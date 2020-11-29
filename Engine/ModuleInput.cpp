@@ -6,7 +6,7 @@
 #include "Model.h"
 #include "SDL/include/SDL.h"
 #include "ImGui/imgui_impl_sdl.h"
-
+#include "leak.h"
 
 #define MAX_KEYS 300
 
@@ -154,6 +154,7 @@ update_status ModuleInput::Update()
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem\n");
+	RELEASE(keyboard);
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }

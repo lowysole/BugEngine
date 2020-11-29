@@ -45,11 +45,10 @@ public:
 	void SetTime(int other) { time = other; };
 	float GetFOV() const { return vFOV; };
 	float3 GetPosition() const { return cameraPosition; };
-	void SetPosition(float3 other) { cameraPosition = other; };
+	void SetPosition(const float3 other) { cameraPosition = other; };
 	float3 GetFrustumUp() const { return frustum.Up(); };
 	float3 GetFrustumFront() const { return frustum.Front(); };
 	float2 GetAnglesRotation() const { return float2(angleX, angleY); };
-
 
 	float fpsLog[25] = {};
 
@@ -57,25 +56,25 @@ private:
 
 	//Time
 	Clock clock;
-	float deltaTime;
+	float deltaTime = 0.0f;
 	float previousTime = 0.0f;
 	int frames = 0;
 	float lastTime = 0.0f;
 	int time = 1;
-	int fpsMax;
+	int fpsMax = 0;
 
 	//Camera
 	Frustum frustum;
 	float4x4 projectionGL;
 	float4x4 viewMatrix;
 	float3 cameraPosition;
-	float cameraSpeed;
+	float cameraSpeed = 0.0f;
 	float angleX = 0.0f, angleY = 0.0f;
-	float angleSpeed;
-	float nearPlane;
-	float farPlane;
-	float aspectRatio;
+	float angleSpeed = 0.0f;
+	float nearPlane = 0.0f;
+	float farPlane = 0.0f;
+	float aspectRatio = 0.0f;
 	float vFOV = pi / 2;
-	float zoomSpeed;
+	float zoomSpeed = 0.0f;
 };
 

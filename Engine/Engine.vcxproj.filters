@@ -505,6 +505,7 @@
     <ClInclude Include="UIConfiguration.h">
       <Filter>UIEngine</Filter>
     </ClInclude>
+    <ClInclude Include="leak.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Algorithm">

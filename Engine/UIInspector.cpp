@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include <math.h>
 #include <vector>
+#include "leak.h"
 
 void UIInspector::Draw(const char* title, bool* p_open) {
 

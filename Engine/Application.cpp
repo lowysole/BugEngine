@@ -9,7 +9,7 @@
 #include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
 #include "Model.h"
-
+#include "leak.h"
 
 using namespace std;
 

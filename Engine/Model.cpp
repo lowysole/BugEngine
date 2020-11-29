@@ -7,9 +7,15 @@
 #include "UIInspector.h"
 #include "Mesh.h"
 #include "GL/glew.h"
+#include "leak.h"
 
 void myCallback(const char* msg, char* userData) {
 	LOG(msg);
+}
+
+Model::~Model() {
+
+	meshes.clear();
 }
 
 bool Model::Init() {
@@ -169,6 +175,9 @@ void Model::UpdateCameraDistance() {
 }
 
 void Model::CleanMeshes(){
+	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++) {
+		RELEASE(*it);
+	}
 	meshes.clear();
 }
 

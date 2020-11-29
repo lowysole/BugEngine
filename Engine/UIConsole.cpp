@@ -1,5 +1,6 @@
 #include "UIConsole.h"
 #include "imgui.h"
+#include "leak.h"
 
 UIConsole::UIConsole() {
     autoScroll = true;

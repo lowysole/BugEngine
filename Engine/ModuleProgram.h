@@ -8,11 +8,11 @@ public:
 	char* LoadShaderSource(const char* shader_file_name);
 	unsigned CompileShader(unsigned type, const char* source);
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
-	unsigned GetProgramId() const { return program_id; };
+	unsigned GetProgramId() const { return programId; };
 	bool CleanUp();
 
 private:
-	unsigned program_id;
+	unsigned programId;
 
 };
 

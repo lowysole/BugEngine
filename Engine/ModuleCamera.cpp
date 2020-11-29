@@ -8,7 +8,7 @@
 #include "Model.h"
 #include "UIInspector.h"
 #include "Math/float3x3.h"
-
+#include "leak.h"
 
 bool ModuleCamera::Init() {
 	

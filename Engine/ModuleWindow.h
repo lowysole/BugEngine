@@ -12,7 +12,6 @@ public:
 	bool Init();
 	bool CleanUp();
 
-
 	void SetFullScreen(bool flag);
 	void SetResizable(bool flag);
 	void SetBoderless(bool flag);
@@ -20,10 +19,10 @@ public:
 	void SetBrightness(int value);
 
 	//Getters & Setters
-	SDL_Window* GetWindow() { return window; };
-	int GetCurrentWidth() { return currentWidth; };
+	SDL_Window* GetWindow() const { return window; };
+	int GetCurrentWidth() const { return currentWidth; };
 	void SetCurrentWidth(int other) { currentWidth = other;  };
-	int GetCurrentHeight() { return currentHeight; };
+	int GetCurrentHeight() const { return currentHeight; };
 	void SetCurrentHeight(int other) { currentHeight = other; };
 
 private:

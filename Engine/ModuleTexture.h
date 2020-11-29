@@ -10,8 +10,8 @@ class ModuleTexture : public Module
 public:
 	bool Init();
 	GLuint LoadTexture(const char* shader_file_name);
-	void ApplyFilters(GLuint image);
-	bool DeleteTexture(GLuint& image);
+	void ApplyFilters(const GLuint image);
+	bool DeleteTexture(const GLuint& image);
 	bool CleanUp();	
 };
 

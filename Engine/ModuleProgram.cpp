@@ -1,6 +1,7 @@
 #include "ModuleProgram.h"
 #include "Application.h"
 #include "GL/glew.h";
+#include "leak.h"
 
 bool ModuleProgram::Init() {
 
@@ -8,7 +9,9 @@ bool ModuleProgram::Init() {
 	char* defaultFragment = LoadShaderSource("default_fragment.glsl");
 	unsigned vertexShaderID = CompileShader(GL_VERTEX_SHADER, defaultVertex);
 	unsigned fragmentShaderID = CompileShader(GL_FRAGMENT_SHADER, defaultFragment);
-	program_id = CreateProgram(vertexShaderID, fragmentShaderID);
+	programId = CreateProgram(vertexShaderID, fragmentShaderID);
+	delete defaultVertex;
+	delete defaultFragment;
 
 	return true;
 }
@@ -56,31 +59,31 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
 
 unsigned ModuleProgram::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
 {
-	unsigned program_id = glCreateProgram();
-	glAttachShader(program_id, vtx_shader);
-	glAttachShader(program_id, frg_shader);
-	glLinkProgram(program_id);
+	unsigned programId = glCreateProgram();
+	glAttachShader(programId, vtx_shader);
+	glAttachShader(programId, frg_shader);
+	glLinkProgram(programId);
 	int res;
-	glGetProgramiv(program_id, GL_LINK_STATUS, &res);
+	glGetProgramiv(programId, GL_LINK_STATUS, &res);
 	if (res == GL_FALSE)
 	{
 		int len = 0;
-		glGetProgramiv(program_id, GL_INFO_LOG_LENGTH, &len);
+		glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &len);
 		if (len > 0)
 		{
 			int written = 0;
 			char* info = (char*)malloc(len);
-			glGetProgramInfoLog(program_id, len, &written, info);
+			glGetProgramInfoLog(programId, len, &written, info);
 			LOG("Program Log Info: %s\n", info);
 			free(info);
 		}
 	}
 	glDeleteShader(vtx_shader);
 	glDeleteShader(frg_shader);
-	return program_id;
+	return programId;
 }
 
 bool ModuleProgram::CleanUp(){
-
+	glDeleteProgram(programId);
 	return true;
 }
