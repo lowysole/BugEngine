@@ -18,13 +18,17 @@ public:
 	void SetMaxHeight(int height) { maxHeight = height; };
 	void GetTextureFolder(char* other);
 	void GetTextureExt(char* other);
-	float4 GetBgColor() const { return float4(bgColor[0],
-											  bgColor[1],
-											  bgColor[2],
-											  bgColor[3]); };
-	float3 GetGridColor() const { return float3(gridColor[0], 
-												gridColor[1], 
-												gridColor[2]); };
+	float4 GetBgColor() const {
+		return float4(bgColor[0],
+			bgColor[1],
+			bgColor[2],
+			bgColor[3]);
+	};
+	float3 GetGridColor() const {
+		return float3(gridColor[0],
+			gridColor[1],
+			gridColor[2]);
+	};
 	const char* GetWrapFilter() const { return wrap[wrapCurrent]; };
 	const char* GetMagFilter() const;
 	const char* GetMinFilter() const;
@@ -61,9 +65,9 @@ private:
 								"GL_LINEAR_MIPMAP_LINEAR" };
 	int magMinmapCurrent = 3;
 	const char* minMinmap[4] = { "GL_NEAREST_MIPMAP_NEAREST",
-							     "GL_LINEAR_MIPMAP_NEAREST",
-							     "GL_NEAREST_MIPMAP_LINEAR",
-							     "GL_LINEAR_MIPMAP_LINEAR" };
+								 "GL_LINEAR_MIPMAP_NEAREST",
+								 "GL_NEAREST_MIPMAP_LINEAR",
+								 "GL_LINEAR_MIPMAP_LINEAR" };
 	int minMinmapCurrent = 3;
 	const char* wrap[4] = { "GL_REPEAT",
 						   "GL_CLAMP",
@@ -72,7 +76,7 @@ private:
 	int wrapCurrent = 0;
 
 	//Render
-	float bgColor[4] = {0.1f, 0.1f, 0.1f, 1.0f};
-	float gridColor[3] = { 0.501961f, 0.501961f, 0.501961f};
+	float bgColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
+	float gridColor[3] = { 0.501961f, 0.501961f, 0.501961f };
 };
 

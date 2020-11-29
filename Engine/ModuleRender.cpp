@@ -32,7 +32,7 @@ update_status ModuleRender::PreUpdate() {
 	App->window->SetCurrentWidth(w);
 	App->window->SetCurrentHeight(h);
 	float4 bgColor = App->editor->config->GetBgColor();
-	glClearColor(bgColor.x,  bgColor.y, bgColor.z, bgColor.w);
+	glClearColor(bgColor.x, bgColor.y, bgColor.z, bgColor.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	return UPDATE_CONTINUE;
 }
@@ -55,9 +55,4 @@ update_status ModuleRender::PostUpdate() {
 
 	SDL_GL_SwapWindow(App->window->GetWindow());
 	return UPDATE_CONTINUE;
-}
-
-bool ModuleRender::CleanUp() {
-
-	return true;
 }

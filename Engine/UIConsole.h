@@ -15,7 +15,7 @@ public:
 private:
 	ImGuiTextBuffer     buffer;
 	ImGuiTextFilter     filter;
-	ImVector<int>       lineOffsets; // Index to lines offset. We maintain this with AddLog() calls.
+	ImVector<int>       lineOffsets;
 	bool                autoScroll;
 
 };

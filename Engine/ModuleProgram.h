@@ -2,7 +2,7 @@
 #include "Module.h"
 class ModuleProgram : public Module
 {
-public: 
+public:
 
 	bool Init();
 	char* LoadShaderSource(const char* shader_file_name);

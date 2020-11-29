@@ -8,7 +8,6 @@ public:
 	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
-	bool CleanUp();
 
 	//Getters & Setters
 	void* GetContext() { return context; };

@@ -83,7 +83,7 @@ unsigned ModuleProgram::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
 	return programId;
 }
 
-bool ModuleProgram::CleanUp(){
+bool ModuleProgram::CleanUp() {
 
 
 	glDeleteProgram(programId);

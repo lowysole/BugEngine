@@ -12,6 +12,5 @@ public:
 	GLuint LoadTexture(const char* shader_file_name);
 	void ApplyFilters(const GLuint image);
 	bool DeleteTexture(const GLuint& image);
-	bool CleanUp();	
 };
 

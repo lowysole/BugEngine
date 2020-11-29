@@ -120,7 +120,4 @@ bool ModuleTexture::DeleteTexture(const GLuint& image) {
 	glDeleteTextures(1, &image);
 	return true;
 }
-bool ModuleTexture::CleanUp() {
-	return true;
-}
 

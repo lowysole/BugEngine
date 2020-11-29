@@ -10,9 +10,8 @@
 
 #define DEGTORAD 0.01745329252f 
 #define RADTODEG 57.295779
-#define EPSILON 0.001f
 
-class ModuleCamera : public Module 
+class ModuleCamera : public Module
 {
 public:
 

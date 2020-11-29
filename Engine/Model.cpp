@@ -62,25 +62,25 @@ void Model::LoadScene(const char* file) {
 
 void Model::LoadMaterials(const aiScene* scene)
 {
-		aiString file;
-		materials.reserve(scene->mNumMaterials);
-		for (unsigned i = 0; i < scene->mNumMaterials; ++i)
+	aiString file;
+	materials.reserve(scene->mNumMaterials);
+	for (unsigned i = 0; i < scene->mNumMaterials; ++i)
+	{
+		if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
-			{
-				std::string filename = fileName.substr(0, fileName.rfind('\\'));
-				texturePath = filename + "\\"+ file.data;
-				GLuint texture = App->texture->LoadTexture(texturePath.c_str());
-				if (texture) {
-					materials.push_back(texture);
-					LOG("[INFO] Texture loaded correctly\n");
-				}
+			std::string filename = fileName.substr(0, fileName.rfind('\\'));
+			texturePath = filename + "\\" + file.data;
+			GLuint texture = App->texture->LoadTexture(texturePath.c_str());
+			if (texture) {
+				materials.push_back(texture);
+				LOG("[INFO] Texture loaded correctly\n");
 			}
 		}
-		if (materials.size() == 0) {
+	}
+	if (materials.size() == 0) {
 
-			LoadMaterialFromModelPath();
-		}
+		LoadMaterialFromModelPath();
+	}
 }
 
 void Model::LoadMaterialFromModelPath() {
@@ -158,10 +158,11 @@ void Model::UpdateCameraDistance() {
 	ModuleCamera* camera = App->camera;
 	float fov = camera->GetFOV();
 	//Taking into account Model Matrix in origin
+	//TODO : Change bouncing box calculation - Use MathGeoLib for instance 
 	float radius = 0.0f;
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++) {
 		float3 max = (*it)->GetMaxDistance();
-		if (radius < max.x){
+		if (radius < max.x) {
 			radius = max.x;
 		}
 		if (radius < max.y) {
@@ -172,13 +173,13 @@ void Model::UpdateCameraDistance() {
 		}
 	}
 	float3 pos = camera->GetPosition();
-	float dist = radius / sin(fov /2);
+	float dist = radius / sin(fov / 2);
 	App->editor->inspector->SetCameraPosition(float3(0, 1, -dist));
 	camera->UpdateFrontFrustum(float3::unitZ);
 	camera->UpdateUpFrustum(float3::unitY);
 }
 
-void Model::CleanMeshes(){
+void Model::CleanMeshes() {
 	for (std::vector<Mesh*>::iterator it = meshes.begin(); it != meshes.end(); it++) {
 		RELEASE(*it);
 	}

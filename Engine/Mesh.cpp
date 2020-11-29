@@ -19,10 +19,10 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 	for (unsigned i = 0; i < mesh->mNumVertices; ++i) {
 		int j = i * 5;
 		data[j] = mesh->mVertices[i].x;
-		data[j+1] = mesh->mVertices[i].y;
-		data[j+2] = mesh->mVertices[i].z;
-		data[j+3] = mesh->mTextureCoords[0][i].x;
-		data[j+4] = mesh->mTextureCoords[0][i].y;
+		data[j + 1] = mesh->mVertices[i].y;
+		data[j + 2] = mesh->mVertices[i].z;
+		data[j + 3] = mesh->mTextureCoords[0][i].x;
+		data[j + 4] = mesh->mTextureCoords[0][i].y;
 
 		if (data[j] > abs(xMax)) xMax = abs(data[j]);
 		if (data[j + 1] > abs(yMax)) yMax = abs(data[j + 1]);

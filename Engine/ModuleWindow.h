@@ -21,7 +21,7 @@ public:
 	//Getters & Setters
 	SDL_Window* GetWindow() const { return window; };
 	int GetCurrentWidth() const { return currentWidth; };
-	void SetCurrentWidth(int other) { currentWidth = other;  };
+	void SetCurrentWidth(int other) { currentWidth = other; };
 	int GetCurrentHeight() const { return currentHeight; };
 	void SetCurrentHeight(int other) { currentHeight = other; };
 

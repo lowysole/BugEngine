@@ -3,18 +3,18 @@
 #include "Math/float2.h"
 #include "Math/float3.h"
 
-class UIInspector  : public UI
+class UIInspector : public UI
 {
 public:
 	void Draw(const char* title, bool* p_open);
 
 	//Camera
 	float3 GetCameraPosition() const { return float3(cameraPosition[0], cameraPosition[1], cameraPosition[2]); };
-	void SetCameraPosition( const float3 pos) { cameraPosition[0] = pos.x, cameraPosition[1] = pos.y, cameraPosition[2] = pos.z; };
+	void SetCameraPosition(const float3 pos) { cameraPosition[0] = pos.x, cameraPosition[1] = pos.y, cameraPosition[2] = pos.z; };
 	float2 GetCameraRotation() const { return float2(cameraPitch, cameraYaw); };
 	void SetCameraRotation(const float2 other) { cameraPitch = other.x, cameraYaw = other.y; };
 	float GetCameraSpeed() const { return cameraSpeed; };
-	float GetAngleSpeed() const{ return angleSpeed; };
+	float GetAngleSpeed() const { return angleSpeed; };
 	float GetNearPlane() const { return nearPlane; };
 	float GetFarPlane() const { return farPlane; };
 	float GetZoomSpeed() const { return zoomSpeed; };

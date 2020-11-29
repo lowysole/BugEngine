@@ -29,19 +29,16 @@ enum KeyState
 class ModuleInput : public Module
 {
 public:
-	
-	ModuleInput();
-	~ModuleInput();
 
+	ModuleInput();
 	bool Init();
 	update_status PreUpdate();
-	update_status Update();
 	bool CleanUp();
 
 
 	// Getters & Setters
 	KeyState GetKey(int id) const { return keyboard[id]; };
-	KeyState GetMouseButtonDown(int id) const {return mouse_buttons[id - 1];};
+	KeyState GetMouseButtonDown(int id) const { return mouse_buttons[id - 1]; };
 	bool GetWindowEvent(EventWindow code) const { return windowEvents[code]; };
 	const iPoint& GetMouseMotion() const { return mouse_motion; };
 	const iPoint& GetMousePosition() const { return mouse; };

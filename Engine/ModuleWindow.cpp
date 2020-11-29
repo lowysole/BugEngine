@@ -10,7 +10,7 @@ bool ModuleWindow::Init()
 	LOG("Init SDL window & surface\n");
 	bool ret = true;
 
-	if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -30,9 +30,9 @@ bool ModuleWindow::Init()
 		App->editor->config->SetMaxWidht(currentWidth);
 		App->editor->config->SetMaxHeight(currentHeight);
 
-		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL;
+		Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
 
-		if(fullscreen == true) {
+		if (fullscreen == true) {
 
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
@@ -51,7 +51,7 @@ bool ModuleWindow::Init()
 
 		window = SDL_CreateWindow(TITLE, 0, 0, currentWidth * 0.8, currentHeight * 0.8, flags);
 
-		if(window == NULL) {
+		if (window == NULL) {
 
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -81,7 +81,7 @@ void ModuleWindow::SetResizable(bool flag) {
 }
 
 void ModuleWindow::SetBoderless(bool flag) {
-	
+
 	SDL_SetWindowBordered(window, (SDL_bool)!flag);
 	borderless = !flag;
 }
@@ -103,13 +103,11 @@ bool ModuleWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems\n");
 
-	//Destroy window
 	if (window != NULL)
 	{
 		SDL_DestroyWindow(window);
 	}
 
-	//Quit SDL subsystems
 	SDL_Quit();
 	return true;
 }

@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-class Model: public Module
+class Model : public Module
 {
 public:
 
@@ -27,7 +27,7 @@ public:
 
 	//Getter & Setters
 	std::vector<Mesh*> GetMeshes() const { return meshes; };
-	std::vector<GLuint> GetMaterials() const{ return materials; };
+	std::vector<GLuint> GetMaterials() const { return materials; };
 	std::string GetTexturePath() const { return texturePath; };
 	int GetTextureWidth() const { return textureSize[0]; };
 	int GetTextureHeight() const { return textureSize[1]; };
@@ -38,7 +38,7 @@ private:
 	std::vector<GLuint> materials;
 	std::string fileName;
 	std::string texturePath;
-	int textureSize[2] = {0,0};
+	int textureSize[2] = { 0,0 };
 	int textureHeight = 0;
 };
 

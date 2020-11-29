@@ -11,7 +11,7 @@
 #include "leak.h"
 
 bool ModuleCamera::Init() {
-	
+
 	clock = Clock();
 	GetUIInformation();
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
@@ -25,7 +25,7 @@ bool ModuleCamera::Init() {
 	return true;
 }
 
-update_status ModuleCamera::Update() 
+update_status ModuleCamera::Update()
 {
 	float currentTime = clock.Time();
 	deltaTime = (currentTime - previousTime) / 1000.0;
@@ -69,27 +69,27 @@ void ModuleCamera::FlythroughMode() {
 	float angleShift = deltaTime * angleSpeed;
 	float aX = 0, aY = 0;
 
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) && 
-		!App->input->GetKey(SDL_SCANCODE_LALT) && 
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) &&
+		!App->input->GetKey(SDL_SCANCODE_LALT) &&
 		!App->input->GetKey(SDL_SCANCODE_RALT)) {
 
-		if (App->input->GetKey(SDL_SCANCODE_W)) 
+		if (App->input->GetKey(SDL_SCANCODE_W))
 			cameraPosition = frustum.Front() * shift + cameraPosition;
-		
-		if (App->input->GetKey(SDL_SCANCODE_S)) 
+
+		if (App->input->GetKey(SDL_SCANCODE_S))
 			cameraPosition = -frustum.Front() * shift + cameraPosition;
-		
-		if (App->input->GetKey(SDL_SCANCODE_A)) 
+
+		if (App->input->GetKey(SDL_SCANCODE_A))
 			cameraPosition = -frustum.WorldRight() * shift + cameraPosition;
-		
-		if (App->input->GetKey(SDL_SCANCODE_D)) 
+
+		if (App->input->GetKey(SDL_SCANCODE_D))
 			cameraPosition = frustum.WorldRight() * shift + cameraPosition;
-		
-		if (App->input->GetKey(SDL_SCANCODE_Q)) 
+
+		if (App->input->GetKey(SDL_SCANCODE_Q))
 			cameraPosition = float3::unitY * shift + cameraPosition;
-		
-		if (App->input->GetKey(SDL_SCANCODE_E)) 
-			cameraPosition = -float3::unitY * shift + cameraPosition;	
+
+		if (App->input->GetKey(SDL_SCANCODE_E))
+			cameraPosition = -float3::unitY * shift + cameraPosition;
 
 
 		if (App->input->GetMouseMotion().y < 0) {
@@ -105,7 +105,7 @@ void ModuleCamera::FlythroughMode() {
 			aY = -angleShift;
 		}
 		RotateCamera(aX, aY);
-	}	
+	}
 }
 
 void ModuleCamera::RotateCamera(float aX, float aY) {
@@ -118,7 +118,7 @@ void ModuleCamera::RotateCamera(float aX, float aY) {
 		angleX = 1.553343;
 		aX = 0;
 	}
-	else if(angleX <= -1.553343){
+	else if (angleX <= -1.553343) {
 		angleX = -1.553343;
 		aX = 0;
 	}
@@ -129,11 +129,11 @@ void ModuleCamera::RotateCamera(float aX, float aY) {
 	frustum.SetFront(rotationMatrix.RotateY(aY) * oldFront);
 	oldUp = frustum.Up().Normalized();
 	oldFront = frustum.Front().Normalized();
-	frustum.SetUp(rotationMatrix.RotateAxisAngle(- frustum.WorldRight(), aX) * oldUp);
+	frustum.SetUp(rotationMatrix.RotateAxisAngle(-frustum.WorldRight(), aX) * oldUp);
 	frustum.SetFront(rotationMatrix.RotateAxisAngle(-frustum.WorldRight(), aX) * oldFront);
 }
 
-void ModuleCamera::ZoomCamera(){
+void ModuleCamera::ZoomCamera() {
 	int wheel = App->input->GetMouseWheel();
 	bool changed = false;
 	if (wheel) {
@@ -168,30 +168,30 @@ void ModuleCamera::ZoomCamera(){
 void ModuleCamera::Orbit() {
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) && App->input->GetKey(SDL_SCANCODE_LALT)) {
 
-	float3 up = float3::unitY;
-	float3 front = frustum.Front();
-	float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
-	float3 focusDirection = (frustum.Pos() - focusPoint);
-	float pitch = 0, yaw = 0;
-	float angleShift = deltaTime * angleSpeed;
-	if (App->input->GetMouseMotion().y < 0) {
-		pitch = -angleShift;
-	}
-	if (App->input->GetMouseMotion().y > 0) {
-		pitch = angleShift;
-	}
-	if (App->input->GetMouseMotion().x < 0) {
-		yaw = -angleShift;
-	}
-	if (App->input->GetMouseMotion().x > 0) {
-		yaw = angleShift;
-	}
-	float3x3 rotationMatrix = frustum.ViewMatrix().RotatePart();
-	float3x3 rotationYaw = rotationMatrix.RotateAxisAngle(up, yaw);
-	float3x3 rotationPitch = rotationMatrix.RotateAxisAngle(frustum.WorldRight(), pitch);
-	float3 newCamPosDirection = (focusDirection * rotationPitch) * rotationYaw ;
-	cameraPosition = newCamPosDirection + focusPoint;
-	LookAt(cameraPosition, focusPoint);
+		float3 up = float3::unitY;
+		float3 front = frustum.Front();
+		float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
+		float3 focusDirection = (frustum.Pos() - focusPoint);
+		float pitch = 0, yaw = 0;
+		float angleShift = deltaTime * angleSpeed;
+		if (App->input->GetMouseMotion().y < 0) {
+			pitch = -angleShift;
+		}
+		if (App->input->GetMouseMotion().y > 0) {
+			pitch = angleShift;
+		}
+		if (App->input->GetMouseMotion().x < 0) {
+			yaw = -angleShift;
+		}
+		if (App->input->GetMouseMotion().x > 0) {
+			yaw = angleShift;
+		}
+		float3x3 rotationMatrix = frustum.ViewMatrix().RotatePart();
+		float3x3 rotationYaw = rotationMatrix.RotateAxisAngle(up, yaw);
+		float3x3 rotationPitch = rotationMatrix.RotateAxisAngle(frustum.WorldRight(), pitch);
+		float3 newCamPosDirection = (focusDirection * rotationPitch) * rotationYaw;
+		cameraPosition = newCamPosDirection + focusPoint;
+		LookAt(cameraPosition, focusPoint);
 	}
 }
 
@@ -200,21 +200,20 @@ void ModuleCamera::FocusCenterObject() {
 		angleX = 0;
 		float4x4 model = App->model->GetMeshes()[0]->GetModelMatrix();
 		float3 position = GetModelPosition(model);
-		LookAt(frustum.Pos(),position);
+		LookAt(frustum.Pos(), position);
 	}
 }
 
 
-void ModuleCamera::ModifyCameraSpeed(){
+void ModuleCamera::ModifyCameraSpeed() {
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT)) {
 		cameraSpeed *= 2;
 		angleSpeed *= 2;
-		// TODO: Print updated velocity
 	}
 }
 
 void ModuleCamera::GetUIInformation() {
-	//Transformation
+
 	UIInspector* inspector = App->editor->inspector;
 	cameraPosition = inspector->GetCameraPosition();
 	cameraSpeed = inspector->GetCameraSpeed();
@@ -234,7 +233,7 @@ void ModuleCamera::CalculateFrameRate() {
 
 	float currentTime = clock.Time();
 	++frames;
-	if (currentTime - lastTime > 1000.0f * time){
+	if (currentTime - lastTime > 1000.0f * time) {
 
 		lastTime = currentTime;
 		int fps = frames / time;

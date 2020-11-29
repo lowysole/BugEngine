@@ -62,12 +62,12 @@ bool ModuleEditor::CleanUp() {
 
 void ModuleEditor::UIMainMenuBar() {
 
-	if(ImGui::BeginMainMenuBar()) {
+	if (ImGui::BeginMainMenuBar()) {
 
 		if (ImGui::BeginMenu("Menu")) {
 
 			if (ImGui::MenuItem("GitHub")) {
-				ShellExecuteA(NULL, "open", "https://github.com/lowysole/master_exercises/tree/main/Engine", NULL, NULL, SW_SHOWNORMAL);
+				ShellExecuteA(NULL, "open", "https://github.com/lowysole/BugEngine", NULL, NULL, SW_SHOWNORMAL);
 			}
 			ImGui::Separator();
 			ImGui::MenuItem("Quit", NULL, &exit);
@@ -88,7 +88,7 @@ void ModuleEditor::UIMainMenuBar() {
 void ModuleEditor::UIAbout(bool* p_open) {
 
 	ImGui::Begin("About", &showUIAbout);
-	ImGui::TextColored(ImVec4(0.35f, 0.69f, 0.87f, 1.0f), TITLE " v1.0" );
+	ImGui::TextColored(ImVec4(0.35f, 0.69f, 0.87f, 1.0f), TITLE " v1.0");
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(0.14f, 0.47f, 0.60f, 1.0f), u8"By Llorenç (Lowy) Solé.");
 	ImGui::TextWrapped("Engine developed during the Master in Advanced Programming for AAA Video Games by UPC.");
@@ -96,10 +96,10 @@ void ModuleEditor::UIAbout(bool* p_open) {
 	ImGui::Separator();
 
 	static bool showLibrary = false;
-	ImVec2 child_size = ImVec2(0, ImGui::GetTextLineHeightWithSpacing()*6);
+	ImVec2 child_size = ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 6);
 
 	ImGui::Checkbox("Libraries", &showLibrary);
-	if (showLibrary){
+	if (showLibrary) {
 
 		ImGui::BeginChildFrame(ImGui::GetID("cfg_infos"), child_size);
 		ImGui::Text("MathGeoLib v1.5 ");
@@ -111,7 +111,7 @@ void ModuleEditor::UIAbout(bool* p_open) {
 
 		ImGui::EndChildFrame();
 	}
-	ImGui::End();	
+	ImGui::End();
 }
 
 void ModuleEditor::CheckUIWindows() {
