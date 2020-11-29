@@ -83,10 +83,6 @@ void UIInspector::Draw(const char* title, bool* p_open) {
                                
             char name[10];
             sprintf_s(name, 10, "Mesh %d", count);
-            char nVertices[5];
-            sprintf_s(nVertices, 5, "%d", (*it)->GetNumVertices());
-            char nFaces[5];
-            sprintf_s(nFaces, 5, "%d", (*it)->GetNumFaces());
 
             if (ImGui::TreeNode(name)) {
 
@@ -96,8 +92,8 @@ void UIInspector::Draw(const char* title, bool* p_open) {
                 ImGui::InputFloat3("Rotation", rotation);
                 ImGui::Separator();
                 ImGui::TextColored(color, "Geometry");
-                ImGui::TextWrapped("Num Vertices:   %d", nVertices);
-                ImGui::TextWrapped("Num Triangles:   %d", nFaces);
+                ImGui::TextWrapped("Num Vertices:   %d", (*it)->GetNumVertices());
+                ImGui::TextWrapped("Num Triangles:   %d", (*it)->GetNumFaces());
                 ImGui::Separator();
                 ImGui::TextColored(color, "Texture");
                 ImGui::TextWrapped("Path: ");

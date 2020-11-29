@@ -3,9 +3,6 @@
 #include "Mesh.h"
 #include "GL/glew.h"
 #include "Math/float2.h"
-#include <assimp\cimport.h>
-#include <assimp\scene.h>
-#include <assimp\postprocess.h>
 #include <vector>
 #include <string>
 

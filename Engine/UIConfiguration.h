@@ -48,7 +48,7 @@ private:
 	int maxHeight = 0;
 
 	//Texture
-	char textureFolder[MAX_BUFF_FOLDER];
+	char textureFolder[MAX_BUFF_FOLDER] = ".\\Game\\Textures";
 	char textureExt[MAX_BUFF_EXT] = ".png";
 	bool minmapActivated = false;
 	const char* magnification[2] = { "GL_LINEAR", "GL_NEAREST" };

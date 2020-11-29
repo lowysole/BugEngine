@@ -5,8 +5,8 @@
 
 bool ModuleProgram::Init() {
 
-	char* defaultVertex = LoadShaderSource("default_vertex.glsl");
-	char* defaultFragment = LoadShaderSource("default_fragment.glsl");
+	char* defaultVertex = LoadShaderSource(".\\Game\\Resources\\default_vertex.glsl");
+	char* defaultFragment = LoadShaderSource(".\\Game\\Resources\\default_fragment.glsl");
 	unsigned vertexShaderID = CompileShader(GL_VERTEX_SHADER, defaultVertex);
 	unsigned fragmentShaderID = CompileShader(GL_FRAGMENT_SHADER, defaultFragment);
 	programId = CreateProgram(vertexShaderID, fragmentShaderID);
@@ -84,6 +84,8 @@ unsigned ModuleProgram::CreateProgram(unsigned vtx_shader, unsigned frg_shader)
 }
 
 bool ModuleProgram::CleanUp(){
+
+
 	glDeleteProgram(programId);
 	return true;
 }

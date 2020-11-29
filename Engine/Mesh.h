@@ -26,10 +26,10 @@ private:
 	unsigned vbo;
 	unsigned ebo;
 	unsigned vao;
-	unsigned numVertices;
-	unsigned numIndices;
-	unsigned numFaces;
-	unsigned materialIndex;
+	unsigned numVertices = 0;
+	unsigned numIndices = 0;
+	unsigned numFaces = 0;
+	unsigned materialIndex = 0;
 	float4x4 model;
 	float maxX = 0.0f;
 	float maxY = 0.0f;

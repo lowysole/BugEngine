@@ -7,6 +7,9 @@
 #include "UIInspector.h"
 #include "Mesh.h"
 #include "GL/glew.h"
+#include <assimp\cimport.h>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
 #include "leak.h"
 
 void myCallback(const char* msg, char* userData) {
@@ -20,7 +23,7 @@ Model::~Model() {
 
 bool Model::Init() {
 
-	Load("BakerHouse.fbx");
+	Load(".\\Game\\Textures\\BakerHouse.fbx");
 	struct aiLogStream stream;
 	stream.callback = myCallback;
 	aiAttachLogStream(&stream);
@@ -30,7 +33,7 @@ bool Model::Init() {
 
 void Model::Load(const char* file) {
 	std::string s = file;
-	if (s.substr(s.rfind('.'), s.length()) == ".fbx") {
+	if (s.substr(s.rfind('.'), s.length()) == ".fbx" || s.substr(s.rfind('.'), s.length()) == ".FBX") {
 
 		CleanUp();
 		LoadScene(file);
@@ -65,8 +68,9 @@ void Model::LoadMaterials(const aiScene* scene)
 		{
 			if (scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 			{
-				texturePath = file.data;
-				GLuint texture = App->texture->LoadTexture(file.data);
+				std::string filename = fileName.substr(0, fileName.rfind('\\'));
+				texturePath = filename + "\\"+ file.data;
+				GLuint texture = App->texture->LoadTexture(texturePath.c_str());
 				if (texture) {
 					materials.push_back(texture);
 					LOG("[INFO] Texture loaded correctly\n");
@@ -190,6 +194,7 @@ void Model::CleanMaterials() {
 }
 
 bool Model::CleanUp() {
+
 	CleanMeshes();
 	CleanMaterials();
 
