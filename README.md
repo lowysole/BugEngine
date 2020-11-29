@@ -46,7 +46,7 @@ The camera controls are a replica of the ones used in Unity
 ## Further developments
 Some ideas to improve the Engine are:
   - Add the CameraView to a new UI window
-  - Make UI windows adaptable to the change of the aspect ratio dynamically
+  - Make UI windows adaptable to the change of the aspect ratio dynamically (Adding imgui.ini for this reson)
   - Optimize the loading textures logic
   - Change the way we calculate the bouncing box of the model  
   
