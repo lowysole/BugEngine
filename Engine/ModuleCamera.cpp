@@ -172,39 +172,32 @@ void ModuleCamera::Orbit() {
 	float3 front = frustum.Front();
 	float3 focusPoint = GetModelPosition(App->model->GetMeshes()[0]->GetModelMatrix());
 	float3 focusDirection = (frustum.Pos() - focusPoint);
-	float aX = 0, aY = 0;
+	float pitch = 0, yaw = 0;
 	float angleShift = deltaTime * angleSpeed;
 	if (App->input->GetMouseMotion().y < 0) {
-		aX = -angleShift;
+		pitch = -angleShift;
 	}
 	if (App->input->GetMouseMotion().y > 0) {
-		aX = angleShift;
+		pitch = angleShift;
 	}
 	if (App->input->GetMouseMotion().x < 0) {
-		aY = angleShift;
+		yaw = -angleShift;
 	}
 	if (App->input->GetMouseMotion().x > 0) {
-		aY = -angleShift;
+		yaw = angleShift;
 	}
-	angleX += aX;
-	angleY += aY;
-	float3x3 rotationYaw = float3x3::RotateAxisAngle(up, angleY);
-	float3x3 rotationPitch = float3x3::RotateAxisAngle(front, angleX);
+	float3x3 rotationMatrix = frustum.ViewMatrix().RotatePart();
+	float3x3 rotationYaw = rotationMatrix.RotateAxisAngle(up, yaw);
+	float3x3 rotationPitch = rotationMatrix.RotateAxisAngle(frustum.WorldRight(), pitch);
 	float3 newCamPosDirection = (focusDirection * rotationPitch) * rotationYaw ;
-	float3 newCamPos = newCamPosDirection + focusPoint;
-	//float3x3 rotationMatrix = float3x3::LookAt(front, newCamPosDirection, up, float3::unitY);
-	frustum.SetPos(newCamPos);
-	LookAt(newCamPos, focusPoint);
-	//frustum.SetFront((rotationMatrix * front).Normalized());
-	//frustum.SetUp((rotationMatrix * up).Normalized());
-
-
+	cameraPosition = newCamPosDirection + focusPoint;
+	LookAt(cameraPosition, focusPoint);
 	}
 }
 
 void ModuleCamera::FocusCenterObject() {
 	if (App->input->GetKey(SDL_SCANCODE_F)) {
-
+		angleX = 0;
 		float4x4 model = App->model->GetMeshes()[0]->GetModelMatrix();
 		float3 position = GetModelPosition(model);
 		LookAt(frustum.Pos(),position);
@@ -276,9 +269,9 @@ float3 ModuleCamera::GetModelScale(const float4x4& model) const {
 
 void ModuleCamera::LookAt(const float3& pos, const float3& target) {
 	float3 targetDir = target - pos;
-	float3 oldUp = frustum.Up();
-	float3 oldFront = frustum.Front();
+	float3 oldUp = frustum.Up().Normalized();
+	float3 oldFront = frustum.Front().Normalized();
 	float3x3 rotationMatrix = float3x3::LookAt(oldFront, targetDir.Normalized(), oldUp, float3::unitY);
-	frustum.SetFront((rotationMatrix * oldFront).Normalized());
-	frustum.SetUp((rotationMatrix * oldUp).Normalized());
+	frustum.SetFront(rotationMatrix * oldFront);
+	frustum.SetUp(rotationMatrix * oldUp);
 }
